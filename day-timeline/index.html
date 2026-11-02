@@ -1,0 +1,455 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Venture Lab test page, STAGED (not deployed). Needs: controller details, allowed_pages insert, Verifier audit. -->
+<title>Day Timeline – New Tab Planner for Chrome (no account)</title><meta name="description" content="A Chrome new tab page that shows today as a visual timeline. Drag tasks to set start times, import a read-only .ics calendar file. No account; data stays in your browser.">
+<link rel="canonical" href="https://lyssk.github.io/venture-validation-pages/day-timeline/">
+<meta name="google-site-verification" content="rjXgKPEmoESKR7_cWnsLW-729OD9A3efI9_cLgDsV0Q" />
+<style>body{font:17px/1.55 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:24px 20px;color:#111827}h1{font-size:clamp(28px,6vw,46px);line-height:1.1}
+form{display:flex;gap:8px;flex-wrap:wrap}input[type=email]{flex:1;min-width:220px;padding:12px;border:1px solid #d1d5db;border-radius:10px}button{padding:12px 18px;border:0;border-radius:10px;background:#111827;color:#fff;cursor:pointer}
+.msg{margin-top:8px;color:#065f46}.gdpr{font-size:16px;color:#4b5563;margin-top:10px}section{margin:40px 0}.demo{border:1px solid #e5e7eb;border-radius:14px;padding:16px;background:#f9fafb}.demo input,.demo select,.demo textarea{font:inherit;padding:8px;border:1px solid #d1d5db;border-radius:8px;max-width:100%}.demo textarea{width:100%;box-sizing:border-box}.demo button{padding:8px 12px;margin:2px}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}.note{font-size:14px;color:#6b7280}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.col{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:8px;font-size:14px}.card{border:1px solid #d1d5db;border-radius:8px;padding:6px;margin:6px 0;background:#fff}.hl{background:#fde68a}.bar{height:14px;background:#e5e7eb;border-radius:7px;overflow:hidden}.bar>div{height:100%;background:#059669}table{border-collapse:collapse;width:100%;font-size:15px}td,th{border-bottom:1px solid #e5e7eb;padding:4px;text-align:left}.badge{display:inline-block;background:#fef3c7;color:#92400e;border-radius:6px;padding:2px 8px;font-size:14px}details{margin:8px 0}summary{font-weight:600;cursor:pointer}</style></head><body>
+<section class="hero"><h1>Your day as a timeline, on every new tab</h1><p><em>Venture Lab is run by AI agents. A human owner sets the rules; the research, product and copy on this page were written by AI and have not been reviewed by a human.</em><br>Day Timeline replaces Chrome's new tab with a visual timeline of today. Add tasks with a duration, drag a task to set its start time, and import any .ics calendar file, read-only. No account.</p>
+<p><span class="badge">Free Chrome extension · in review prep, not yet in the Chrome Web Store</span></p><a id="heroCta" data-cta="hero" href="#demo" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#111827;color:#fff;text-decoration:none">Try the demo</a></section>
+<section id="demo"><h2>Try it here (same code as the extension)</h2><div class="demo"><style>.dt{--bg:#fafaf9;--fg:#1c1917;--mut:#57534e;--line:#e7e5e4;--card:#fff;--acc:#2563eb;--acc2:#dbeafe;--ev:#f5f5f4;--now:#dc2626;--focus:#f59e0b;color:var(--fg);background:var(--bg);font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+.dt[data-theme=dark]{--bg:#18181b;--fg:#f4f4f5;--mut:#a1a1aa;--line:#3f3f46;--card:#27272a;--acc:#60a5fa;--acc2:#1e3a8a;--ev:#3f3f46;--now:#f87171}
+@media (prefers-color-scheme:dark){.dt[data-theme=auto]{--bg:#18181b;--fg:#f4f4f5;--mut:#a1a1aa;--line:#3f3f46;--card:#27272a;--acc:#60a5fa;--acc2:#1e3a8a;--ev:#3f3f46;--now:#f87171}}
+.dt *{box-sizing:border-box}.dt-head{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line)}
+.dt-date{font-size:22px;margin:0;font-weight:650}.dt-body{display:grid;grid-template-columns:minmax(240px,320px) 1fr;gap:0;height:calc(100% - 58px)}
+.dt-side{padding:16px 20px;border-right:1px solid var(--line);overflow:auto}.dt-side h2{font-size:16px;margin:0 0 8px}
+.dt-add{display:flex;gap:6px;flex-wrap:wrap}.dt-add input[type=text]{flex:1 1 120px;min-width:0}
+.dt input,.dt select{font:inherit;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+.dt-btn{font:inherit;padding:7px 12px;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer;display:inline-block}
+.dt-ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.dt :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.dt-tray{list-style:none;padding:0;margin:12px 0;min-height:44px;border:1px dashed var(--line);border-radius:10px}
+.dt-task{display:flex;align-items:center;gap:6px;padding:8px;margin:6px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:8px;cursor:grab}
+.dt-tt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dt-dur{color:var(--mut);font-size:13px}.dt-task input[type=time]{padding:3px;width:92px}
+.dt-x{border:0;background:none;color:var(--mut);font-size:18px;cursor:pointer}.dt-empty{padding:10px;color:var(--mut)}
+.dt-note{color:var(--mut);font-size:13px}.dt-cal summary{cursor:pointer;font-weight:600;margin:10px 0}.dt-cal>*{margin:4px 0}
+.dt-file{position:absolute;width:1px;height:1px;opacity:0}.dt-filelbl{cursor:pointer}.dt-warn{margin:0;padding:6px 16px 6px 70px;border-bottom:1px solid var(--line);font-size:13px;color:#b45309;font-weight:600}.dt[data-theme=dark] .dt-warn{color:#fbbf24}
+.dt-main{display:flex;flex-direction:column;min-height:0}.dt-allday{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px 8px 70px;border-bottom:1px solid var(--line);min-height:38px}
+.dt-chip{background:var(--ev);border-radius:6px;padding:2px 8px;font-size:13px}
+.dt-scroll{overflow:auto;flex:1;min-height:0}.dt-grid{position:relative;margin:0 16px 0 0}
+.dt-hour{position:absolute;left:0;right:0;border-top:1px solid var(--line)}.dt-hour span{position:absolute;left:8px;top:-9px;background:var(--bg);color:var(--mut);font-size:12px;padding:0 4px}
+.dt-layer{list-style:none;margin:0;padding:0;position:absolute;left:64px;right:0;top:0;bottom:0}
+.dt-ev,.dt-block{position:absolute;overflow:hidden;border-radius:8px;padding:3px 8px;font-size:13px}
+.dt-ev{left:0;width:48%;background:var(--ev);border:1px solid var(--line)}
+.dt-block{left:50%;right:0;background:var(--acc2);border-left:4px solid var(--acc);cursor:grab}
+.dt-now{position:absolute;left:56px;right:0;height:2px;background:var(--now);z-index:3;pointer-events:none}.dt-now::before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--now)}
+.dt-status{position:absolute;left:-9999px}
+@media (max-width:640px){.dt-body{grid-template-columns:1fr;height:auto}.dt-scroll{max-height:70vh}}
+#dt-demo{height:620px;border-radius:10px;overflow:hidden;position:relative}#dt-demo .dt-btn{padding:7px 12px;margin:0}</style><div id="dt-demo"></div><p class="note">The demo keeps everything in this page only and forgets it when you close the tab. Upload an .ics file to see your calendar; it is read in your browser and nothing is uploaded to us.</p></div></section>
+<section class="content"><h2>What it does</h2><ul><li>A visual timeline of today with a line showing the current time.</li><li>Drag a task to set its start time. It snaps to 15 minutes, and every task keeps its own start time.</li><li>Import any .ics calendar file, read-only.</li><li>No account. Data stays in your browser (chrome.storage.local).</li><li>Keyboard accessible, with light and dark mode.</li><li>No analytics in the extension, and it makes no network requests.</li></ul><p><a href="privacy/">Extension privacy policy</a></p></section>
+<section id="signup"><h2>Get notified about Pro (planned, not available yet)</h2><p class="note">Optional. The free extension needs no email.</p>
+<form id="wl" novalidate><input type="email" name="email" required maxlength="254" placeholder="you@example.com" aria-label="Email"><button type="submit">Notify me</button>
+<label class="gdpr" style="flex-basis:100%"><input type="checkbox" id="consent" name="consent" required> I agree to Illia Usyk (Venture Lab) storing my email to tell me when Pro (planned: sync across devices, templates) is available.</label></form>
+<div class="msg" id="m1" role="status"></div>
+<p class="gdpr"><b>Privacy notice.</b> Controller: Illia Usyk, Dorogozhytska St, Kyiv 02000, Ukraine, contact <a href="mailto:iuui3580@gmail.com">iuui3580@gmail.com</a>. Purpose: a list to tell you when Pro is available, and to measure interest in it. The free extension itself sends us nothing (see the <a href="privacy/">extension privacy policy</a>). Legal basis: your consent (GDPR Art. 6(1)(a)), which you can withdraw at any time. Retention: until this test ends plus 90 days, then deleted. Processor: Supabase (data hosted in the EU, Frankfurt). Supabase's parent company is in the US, so personal data may be accessed from or transferred to the US; such transfers are covered by the EU Standard Contractual Clauses (SCCs) in Supabase's data processing agreement. We also record basic visit events (page, referrer, campaign tags, a random session ID, browser type) without cookies; the legal basis for these visit events is our legitimate interest in measuring interest in this product idea (GDPR Art. 6(1)(f)). To unsubscribe, delete your data, or access it, email <a href="mailto:iuui3580@gmail.com?subject=Delete%20my%20data">iuui3580@gmail.com</a>. You may also complain to your data protection authority.</p></section>
+<section class="price"><h2>Pro (planned, not available yet)</h2>
+<p>Pro would add optional sync across devices and templates. The free extension stays local-only and never syncs.</p><p>Planned price: €3/month. Pro does not exist yet. No payment is taken. Clicking tells us you'd pay. Leave your email above if you want to hear when it launches.</p>
+<button id="paid">I'd want Pro for €3/month</button><div class="msg" id="m2" role="status"></div></section>
+<script>
+const FORM_ENDPOINT = 'https://pbihlxszsrpdggjixngl.supabase.co/rest/v1/events';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiaWhseHN6c3JwZGdnaml4bmdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2NTA5OTYsImV4cCI6MjEwOTIyNjk5Nn0.dt8AP9PI41XQ7VBeGpmUbMnuJS3rjlr0r0ELQqUsreE'; // public anon key: insert-only via RLS
+const PAGE_SLUG = 'day-timeline';
+const ss = (() => { try { return sessionStorage; } catch { return {}; } })();
+const q = new URLSearchParams(location.search);
+try { if (q.get('qa') === '1') localStorage.vlab_qa = '1';
+  if (q.get('qa') === '0') { // clear ALL vlab flags + saved UTMs
+    for (const k of Object.keys(localStorage)) if (k.startsWith('vlab_')) localStorage.removeItem(k);
+    for (const k of ['vid','utm_source','utm_medium','utm_campaign']) delete ss[k]; // new session_id too
+  } } catch {}
+const sid = (ss.vid ||= Math.random().toString(36).slice(2));
+const isQA = (() => { try { return localStorage.vlab_qa === '1'; } catch { return false; } })();
+// UTMs: if the URL carries any utm_*, it replaces the stored set (last-touch per landing); otherwise keep the stored ones
+const UTM = ['utm_source','utm_medium','utm_campaign'];
+if (UTM.some(k => q.get(k))) for (const k of UTM) { if (q.get(k)) ss[k] = q.get(k).slice(0, 128); else delete ss[k]; }
+const cut = (v, n) => v == null || v === '' ? null : String(v).slice(0, n);
+function log(event, email = null) {
+  const row = { page: PAGE_SLUG, event, email, referrer: cut(document.referrer, 1024),
+    utm_source: isQA ? cut(/^qa/i.test(ss.utm_source || '') ? ss.utm_source : 'qa-' + (ss.utm_source || 'direct'), 128) : cut(ss.utm_source, 128), utm_medium: cut(ss.utm_medium, 128), utm_campaign: cut(ss.utm_campaign, 128),
+    session_id: sid, user_agent: cut(navigator.userAgent, 512) };
+  return fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON_KEY, Authorization: 'Bearer ' + ANON_KEY, Prefer: 'return=minimal' }, body: JSON.stringify(row), keepalive: true })
+    .then(r => r.ok, () => false); // resolves true only on a 2xx insert
+}
+log('page_view');
+// cta_click = hero CTA (jumps to the in-page demo) only
+document.getElementById('heroCta').addEventListener('click', () => { log('cta_click'); }); // default #demo anchor jump; keepalive lets the log finish
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+// Per-page set of lowercased emails saved from this browser (UX only; real dedupe = count(distinct lower(email)) in the funnel)
+const SKEY = 'vlab_signed_' + PAGE_SLUG;
+const signedSet = () => { try { const v = JSON.parse(localStorage[SKEY] || '[]'); return Array.isArray(v) ? v : []; } catch { return []; } };
+const addSigned = e => { try { const v = signedSet(); if (!v.includes(e)) v.push(e); localStorage[SKEY] = JSON.stringify(v); } catch {} };
+const signedUp = () => signedSet().length > 0;  // an email was actually saved (2xx) on THIS page
+document.getElementById('wl').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const m = document.getElementById('m1'); const email = ev.target.querySelector('input[type=email]').value.trim().toLowerCase().slice(0, 254);
+  if (!EMAIL_RE.test(email)) { m.textContent = 'Please enter a valid email address.'; return; }
+  if (!document.getElementById('consent').checked) { m.textContent = 'Please tick the consent box so we can store your email.'; return; }
+  if (signedSet().includes(email)) { m.textContent = "You're already on the list."; return; }   // same email + page only
+  const btn = ev.target.querySelector('button[type=submit]'); btn.disabled = true;
+  return log('email_submit', email).then(ok => {  // only after a valid submit
+    btn.disabled = false;
+    if (!ok) { m.textContent = 'Something went wrong, please try again.'; return; }
+    addSigned(email);
+    ev.target.reset(); m.textContent = "You're on the list. We'll email you when Pro is available.";
+  });
+});
+document.getElementById('paid').addEventListener('click', () => {
+  const m2 = document.getElementById('m2'); document.getElementById('m1').textContent = '';
+  return log('paid_interest_click').then(ok => {
+    if (!ok) { m2.textContent = 'Something went wrong, please try again.'; return; }
+    if (signedUp()) m2.textContent = "Thanks! Pro isn't available yet, and no payment is taken. We'll email you if it launches.";
+    else { m2.textContent = 'Thanks! Pro isn\'t available yet, and no payment is taken. Leave your email above and we\'ll tell you if it launches.'; document.querySelector('#wl input').focus(); }
+  });
+});
+</script>
+<script>
+const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAGE_SLUG]='1';}catch{} log('demo_use');};
+/* Day Timeline core: pure logic (no DOM). iCalendar parsing (RFC 5545 subset) + time helpers. */
+(function (G) {
+  'use strict';
+  const SNAP = 15;
+  const snap = (min) => Math.max(0, Math.min(1440 - SNAP, Math.round(min / SNAP) * SNAP));
+  const pad = (n) => String(n).padStart(2, '0');
+  const fmt = (min) => pad(Math.floor(min / 60) % 24) + ':' + pad(min % 60);
+  const dayKey = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  const parseHM = (s) => { const m = /^(\d{1,2}):(\d{2})$/.exec(s || ''); return m ? (+m[1]) * 60 + (+m[2]) : null; };
+
+  function unfold(text) { return String(text).replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n[ \t]/g, ''); }
+  function unescapeText(v) { return v.replace(/\\n/gi, '\n').replace(/\\([,;\\])/g, '$1'); }
+  function parseLine(line) {
+    // NAME;PARAM=V;PARAM="x:y":VALUE  (colon inside quotes ignored)
+    let i = 0, q = false;
+    for (; i < line.length; i++) { const c = line[i]; if (c === '"') q = !q; else if (c === ':' && !q) break; }
+    const head = line.slice(0, i), value = line.slice(i + 1);
+    const parts = head.split(';'); const name = parts.shift().toUpperCase(); const params = {};
+    for (const p of parts) { const k = p.indexOf('='); if (k > 0) params[p.slice(0, k).toUpperCase()] = p.slice(k + 1).replace(/^"|"$/g, ''); }
+    return { name, params, value };
+  }
+  // Wall-clock time in an IANA zone -> epoch ms. Falls back to local time for unknown zones.
+  function zoned(y, mo, d, h, mi, s, tz) {
+    if (!tz) return new Date(y, mo - 1, d, h, mi, s).getTime();
+    let fmtr; try { fmtr = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }); }
+    catch { return new Date(y, mo - 1, d, h, mi, s).getTime(); }
+    const want = Date.UTC(y, mo - 1, d, h, mi, s); let t = want;
+    for (let k = 0; k < 3; k++) {
+      const p = {}; for (const x of fmtr.formatToParts(new Date(t))) p[x.type] = +x.value;
+      const got = Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute, p.second);
+      if (got === want) break; t += want - got;
+    }
+    return t;
+  }
+  // Parses DATE or DATE-TIME. Returns {y,mo,d,h,mi,s,allDay,utc,tz}
+  function parseDT(prop) {
+    const v = prop.value.trim(); const m = /^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?(Z)?)?$/.exec(v);
+    if (!m) return null;
+    const allDay = !m[4] || prop.params.VALUE === 'DATE';
+    return { y: +m[1], mo: +m[2], d: +m[3], h: +(m[4] || 0), mi: +(m[5] || 0), s: +(m[6] || 0), allDay, utc: !!m[7], tz: m[7] ? 'UTC' : (prop.params.TZID || null) };
+  }
+  const WINDOWS_TZ = { 'Eastern Standard Time': 'America/New_York', 'Central Standard Time': 'America/Chicago', 'Mountain Standard Time': 'America/Denver', 'Pacific Standard Time': 'America/Los_Angeles', 'GMT Standard Time': 'Europe/London', 'W. Europe Standard Time': 'Europe/Berlin', 'Central European Standard Time': 'Europe/Warsaw', 'FLE Standard Time': 'Europe/Kiev', 'E. Europe Standard Time': 'Europe/Bucharest' };
+  const normTz = (tz) => (tz && WINDOWS_TZ[tz]) || tz;
+  const toMs = (dt, y, mo, d) => zoned(y ?? dt.y, mo ?? dt.mo, d ?? dt.d, dt.h, dt.mi, dt.s, normTz(dt.tz));
+  function parseDuration(v) {
+    const m = /^([+-])?P(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/.exec((v || '').trim());
+    if (!m) return null;
+    const ms = ((+(m[2] || 0)) * 7 * 86400 + (+(m[3] || 0)) * 86400 + (+(m[4] || 0)) * 3600 + (+(m[5] || 0)) * 60 + (+(m[6] || 0))) * 1000;
+    return m[1] === '-' ? -ms : ms;
+  }
+  function parseRRule(v) { const r = {}; for (const kv of v.split(';')) { const [k, x] = kv.split('='); if (k && x != null) r[k.toUpperCase()] = x; } return r; }
+
+  function parseICS(text) {
+    const lines = unfold(text).split('\n'); const events = []; let cur = null, depth = 0;
+    for (const raw of lines) {
+      if (!raw.trim()) continue;
+      const p = parseLine(raw);
+      if (p.name === 'BEGIN') { if (p.value.toUpperCase() === 'VEVENT' && !cur) { cur = { exdates: [] }; depth = 0; } else if (cur) depth++; continue; }
+      if (p.name === 'END') { if (cur && p.value.toUpperCase() === 'VEVENT' && depth === 0) { if (cur.start) events.push(cur); cur = null; } else if (cur) depth--; continue; }
+      if (!cur || depth > 0) continue; // skip VALARM etc.
+      switch (p.name) {
+        case 'SUMMARY': cur.title = unescapeText(p.value); break;
+        case 'UID': cur.uid = p.value; break;
+        case 'DTSTART': cur.start = parseDT(p); break;
+        case 'DTEND': cur.end = parseDT(p); break;
+        case 'DURATION': cur.duration = parseDuration(p.value); break;
+        case 'RRULE': cur.rrule = parseRRule(p.value); break;
+        case 'EXDATE': for (const v of p.value.split(',')) { const d = parseDT({ value: v, params: p.params }); if (d) cur.exdates.push(d); } break;
+        case 'RECURRENCE-ID': cur.recurrenceId = parseDT(p); break;
+        case 'STATUS': cur.status = p.value.toUpperCase(); break;
+      }
+    }
+    return events;
+  }
+
+  const DOW = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+  const dnum = (y, mo, d) => Math.floor(Date.UTC(y, mo - 1, d) / 86400000);
+  const fromDnum = (n) => { const t = new Date(n * 86400000); return { y: t.getUTCFullYear(), mo: t.getUTCMonth() + 1, d: t.getUTCDate(), dow: t.getUTCDay() }; };
+  const daysInMonth = (y, mo) => new Date(Date.UTC(y, mo, 0)).getUTCDate();
+  function byDayMatch(list, c) {
+    // list like ["MO","2TU","-1FR"]; ordinal means nth weekday in month
+    for (const tok of list) {
+      const m = /^([+-]?\d+)?(SU|MO|TU|WE|TH|FR|SA)$/.exec(tok.trim().toUpperCase()); if (!m) continue;
+      if (DOW.indexOf(m[2]) !== c.dow) continue;
+      if (!m[1]) return true;
+      const n = +m[1]; const nth = Math.floor((c.d - 1) / 7) + 1; const nthLast = -(Math.floor((daysInMonth(c.y, c.mo) - c.d) / 7) + 1);
+      if (n === nth || n === nthLast) return true;
+    }
+    return false;
+  }
+  function matchesDay(ev, startN, c, n) {
+    const r = ev.rrule, iv = Math.max(1, +(r.INTERVAL || 1)), s = ev.start;
+    const byday = r.BYDAY ? r.BYDAY.split(',') : null;
+    const bymd = r.BYMONTHDAY ? r.BYMONTHDAY.split(',').map(Number) : null;
+    const bymo = r.BYMONTH ? r.BYMONTH.split(',').map(Number) : null;
+    if (bymo && !bymo.includes(c.mo)) return false;
+    const mdOk = (list) => list.some((x) => x === c.d || (x < 0 && daysInMonth(c.y, c.mo) + x + 1 === c.d));
+    switch ((r.FREQ || '').toUpperCase()) {
+      case 'DAILY': return (n - startN) % iv === 0 && (!byday || byDayMatch(byday, c)) && (!bymd || mdOk(bymd));
+      case 'WEEKLY': {
+        const wk = (x) => Math.floor((x + 3) / 7); // weeks starting Monday (epoch day 0 = Thursday)
+        if ((wk(n) - wk(startN)) % iv !== 0) return false;
+        return byday ? byDayMatch(byday.map((t) => t.replace(/^[+-]?\d+/, '')), c) : c.dow === fromDnum(startN).dow;
+      }
+      case 'MONTHLY': {
+        if (((c.y - s.y) * 12 + (c.mo - s.mo)) % iv !== 0) return false;
+        if (byday) return byDayMatch(byday, c) && (!bymd || mdOk(bymd));
+        return bymd ? mdOk(bymd) : c.d === s.d;
+      }
+      case 'YEARLY': {
+        if ((c.y - s.y) % iv !== 0) return false;
+        if (!bymo && c.mo !== s.mo) return false;
+        if (byday) return byDayMatch(byday, c);
+        return bymd ? mdOk(bymd) : c.d === s.d;
+      }
+    }
+    return false;
+  }
+  // RRULE parts this parser does not implement. Events using them are skipped (never shown wrongly).
+  const UNSUP = ['BYSETPOS', 'BYWEEKNO', 'BYYEARDAY', 'BYHOUR', 'BYMINUTE', 'BYSECOND'];
+  const SUP_FREQ = ['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY'];
+  function unsupportedRule(ev) {
+    const r = ev.rrule; if (!r || ev.recurrenceId) return false;
+    if (UNSUP.some((k) => k in r)) return true;
+    if (!SUP_FREQ.includes((r.FREQ || '').toUpperCase())) return true; // HOURLY, MINUTELY, SECONDLY, missing
+    if (r.WKST && r.WKST.toUpperCase() !== 'MO') return true;
+    return false;
+  }
+  const skippedCount = (events) => events.filter((e) => e.status !== 'CANCELLED' && unsupportedRule(e)).length;
+  const sameDate = (a, c) => a.y === c.y && a.mo === c.mo && a.d === c.d;
+
+  // Returns occurrences overlapping the local day of `date`: [{title,startMs,endMs,allDay}]
+  function occurrencesOn(events, date) {
+    const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+    const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime();
+    const overrides = new Set(events.filter((e) => e.recurrenceId).map((e) => e.uid + '|' + e.recurrenceId.y + '-' + e.recurrenceId.mo + '-' + e.recurrenceId.d));
+    const out = [];
+    for (const ev of events) {
+      if (ev.status === 'CANCELLED') continue;
+      if (unsupportedRule(ev)) continue;
+      const s = ev.start;
+      const lenMs = ev.end ? (s.allDay ? (dnum(ev.end.y, ev.end.mo, ev.end.d) - dnum(s.y, s.mo, s.d)) * 86400000 : toMs(ev.end) - toMs(s))
+        : (ev.duration != null ? ev.duration : (s.allDay ? 86400000 : 0));
+      const push = (c) => {
+        if (s.allDay) {
+          const a = new Date(c.y, c.mo - 1, c.d).getTime(), b = a + Math.max(lenMs, 86400000);
+          if (a < dayEnd && b > dayStart) out.push({ title: ev.title || '(untitled)', startMs: a, endMs: b, allDay: true });
+        } else {
+          const a = toMs(s, c.y, c.mo, c.d), b = a + Math.max(0, lenMs);
+          if (a < dayEnd && (b > dayStart || (b === a && a >= dayStart))) out.push({ title: ev.title || '(untitled)', startMs: a, endMs: b, allDay: false });
+        }
+      };
+      if (!ev.rrule || ev.recurrenceId) { push(s); continue; }
+      const startN = dnum(s.y, s.mo, s.d);
+      const lastN = dnum(date.getFullYear(), date.getMonth() + 1, date.getDate()) + 1; // +1 covers zone offsets
+      const firstN = lastN - 2 - Math.ceil(Math.max(lenMs, 0) / 86400000);
+      const count = ev.rrule.COUNT ? +ev.rrule.COUNT : Infinity;
+      const until = ev.rrule.UNTIL ? parseDT({ value: ev.rrule.UNTIL, params: {} }) : null;
+      const untilMs = until ? (until.allDay ? Date.UTC(until.y, until.mo - 1, until.d, 23, 59, 59) : (until.utc ? Date.UTC(until.y, until.mo - 1, until.d, until.h, until.mi, until.s) : toMs({ ...until, tz: s.tz }))) : Infinity;
+      let seen = 0;
+      // Walk day by day from DTSTART (needed to honour COUNT). Capped at ~60 years.
+      for (let n = startN; n <= lastN && n - startN < 22000; n++) {
+        const c = fromDnum(n);
+        if (n !== startN && !matchesDay(ev, startN, c, n)) continue;
+        const occMs = s.allDay ? Date.UTC(c.y, c.mo - 1, c.d) : toMs(s, c.y, c.mo, c.d);
+        if (occMs > untilMs) break;
+        seen++; if (seen > count) break;
+        if (n < firstN) continue;
+        if (ev.exdates.some((x) => sameDate(x, c))) continue;
+        if (overrides.has(ev.uid + '|' + c.y + '-' + c.mo + '-' + c.d)) continue;
+        push(c);
+      }
+    }
+    return out.sort((a, b) => a.startMs - b.startMs);
+  }
+
+  // Assign start time to exactly one task (by id). Never touches other tasks.
+  function scheduleTask(tasks, id, minute) { return tasks.map((t) => (t.id === id ? { ...t, start: snap(minute) } : t)); }
+  const yToMinute = (y, pxPerMin) => snap(y / pxPerMin);
+
+  G.DTCore = { unsupportedRule, skippedCount, SNAP, snap, fmt, pad, dayKey, parseHM, parseICS, occurrencesOn, scheduleTask, yToMinute, parseDuration, zoned };
+  if (typeof module !== 'undefined') module.exports = G.DTCore;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+/* Day Timeline UI. Mount with DTApp.mount({root, storage, mode:'extension'|'demo', onFirstUse}). */
+(function (G) {
+  'use strict';
+  const C = G.DTCore;
+  const PPM = 1.5; // pixels per minute
+  const KEY = 'dt_state_v1';
+  const el = (tag, attrs = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v;
+      else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else if (v !== false && v != null) n.setAttribute(k, v === true ? '' : v);
+    }
+    for (const c of kids) if (c != null) n.append(c);
+    return n;
+  };
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+  function mount(opts) {
+    const root = opts.root, storage = opts.storage;
+    let state = { tasks: [], ics: { text: '', name: '', updated: 0 }, theme: 'auto' };
+    let events = [], firstUse = false, selectedId = null, dragId = null;
+    const used = () => { if (!firstUse) { firstUse = true; opts.onFirstUse && opts.onFirstUse(); } };
+    const now = () => (opts.now ? opts.now() : new Date());
+    const save = () => storage.set({ [KEY]: state });
+    const status = el('div', { class: 'dt-status', role: 'status', 'aria-live': 'polite' });
+    const say = (t) => { status.textContent = t; };
+
+    // ---------- layout ----------
+    root.classList.add('dt');
+    const dateH = el('h1', { class: 'dt-date' });
+    const themeBtn = el('button', { type: 'button', class: 'dt-btn dt-ghost', 'aria-label': 'Theme', onclick: () => { state.theme = { auto: 'light', light: 'dark', dark: 'auto' }[state.theme] || 'auto'; applyTheme(); save(); } });
+    const header = el('header', { class: 'dt-head' }, dateH, themeBtn);
+
+    const titleIn = el('input', { type: 'text', id: 'dt-title', placeholder: 'New task', 'aria-label': 'Task name', maxlength: '120', required: true });
+    const durIn = el('select', { id: 'dt-dur', 'aria-label': 'Duration' });
+    for (const m of [15, 30, 45, 60, 90, 120, 180]) durIn.append(el('option', { value: m, text: m < 60 ? m + ' min' : (m / 60) + ' h' }));
+    durIn.value = '30';
+    const addForm = el('form', { class: 'dt-add', onsubmit: (e) => { e.preventDefault(); const t = titleIn.value.trim(); if (!t) { titleIn.focus(); return; } used(); state.tasks.push({ id: uid(), title: t, dur: +durIn.value, start: null, day: C.dayKey(now()) }); titleIn.value = ''; save(); render(); say('Added "' + t + '". Drag it onto the timeline, or pick a time.'); } },
+      titleIn, durIn, el('button', { type: 'submit', class: 'dt-btn' , text: 'Add' }));
+    const tray = el('ul', { class: 'dt-tray', 'aria-label': 'Unscheduled tasks' });
+    trayDrop(tray);
+
+    const fileIn = el('input', { type: 'file', accept: '.ics,text/calendar', id: 'dt-file', class: 'dt-file', onchange: async () => { const f = fileIn.files[0]; if (!f) return; used(); const text = await f.text(); setIcs(text, f.name); fileIn.value = ''; } });
+    const icsInfo = el('p', { class: 'dt-note' });
+    const skipInfo = el('p', { class: 'dt-warn', role: 'note' });
+    const calBox = el('details', { class: 'dt-cal' },
+      el('summary', { text: 'Calendar (.ics, read-only)' }),
+      el('label', { class: 'dt-btn dt-ghost dt-filelbl', for: 'dt-file' }, 'Upload .ics file'), fileIn,
+      icsInfo,
+      el('button', { type: 'button', class: 'dt-btn dt-ghost', text: 'Remove calendar', onclick: () => { used(); state.ics = { text: '', name: '', updated: 0 }; events = []; save(); render(); say('Calendar removed.'); } }));
+    const side = el('aside', { class: 'dt-side' }, el('h2', { text: 'Tasks' }), addForm, tray,
+      el('p', { class: 'dt-note', text: 'Tip: drag a task onto the timeline (snaps to 15 min). Keyboard: focus a task, then use the time picker; on the timeline, ↑/↓ moves it 15 min, Delete unschedules.' }), calBox);
+
+    const allDay = el('div', { class: 'dt-allday', 'aria-label': 'All-day events' });
+    const grid = el('div', { class: 'dt-grid', style: 'height:' + 1440 * PPM + 'px' });
+    const nowLine = el('div', { class: 'dt-now', 'aria-hidden': 'true' });
+    const scroller = el('div', { class: 'dt-scroll', tabindex: '-1' }, grid);
+    for (let h = 0; h < 24; h++) grid.append(el('div', { class: 'dt-hour', style: 'top:' + h * 60 * PPM + 'px' }, el('span', { text: C.pad(h) + ':00' })));
+    grid.append(nowLine);
+    const layer = el('ol', { class: 'dt-layer', 'aria-label': 'Today\'s timeline' }); grid.append(layer);
+    grid.addEventListener('dragover', (e) => { if (dragId) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; } });
+    grid.addEventListener('drop', (e) => {
+      e.preventDefault(); const id = dragId || e.dataTransfer.getData('text/x-dt-task'); dragId = null; if (!id) return;
+      const r = grid.getBoundingClientRect(); const t = state.tasks.find((x) => x.id === id); if (!t) return;
+      const grab = +(e.dataTransfer.getData('text/x-dt-offset') || 0);
+      const m = C.yToMinute(e.clientY - r.top - grab, PPM); placeTask(id, m);
+    });
+    const main = el('main', { class: 'dt-main' }, skipInfo, allDay, scroller);
+    root.append(header, el('div', { class: 'dt-body' }, side, main), status);
+
+    // ---------- behaviour ----------
+    function applyTheme() {
+      root.dataset.theme = state.theme;
+      themeBtn.textContent = 'Theme: ' + state.theme;
+    }
+    function placeTask(id, minute) {
+      used(); state.tasks = C.scheduleTask(state.tasks, id, minute);
+      const t = state.tasks.find((x) => x.id === id); t.day = C.dayKey(now());
+      save(); render(); say('"' + t.title + '" starts at ' + C.fmt(t.start) + '.');
+      const n = layer.querySelector('[data-id="' + id + '"]'); n && n.focus();
+    }
+    function unschedule(id) { const t = state.tasks.find((x) => x.id === id); if (!t) return; t.start = null; save(); render(); say('"' + t.title + '" moved back to tasks.'); }
+    function remove(id) { state.tasks = state.tasks.filter((x) => x.id !== id); save(); render(); say('Task deleted.'); }
+    function trayDrop(n) {
+      n.addEventListener('dragover', (e) => { if (dragId) e.preventDefault(); });
+      n.addEventListener('drop', (e) => { e.preventDefault(); if (dragId) { const id = dragId; dragId = null; used(); unschedule(id); } });
+    }
+    function draggable(n, t) {
+      n.draggable = true;
+      n.addEventListener('dragstart', (e) => {
+        dragId = t.id; e.dataTransfer.setData('text/x-dt-task', t.id);
+        // keep the grab point: dropping places the task's top where its top was, not where the cursor is
+        const off = t.start != null ? Math.max(0, e.clientY - n.getBoundingClientRect().top) : 0;
+        e.dataTransfer.setData('text/x-dt-offset', String(off)); e.dataTransfer.effectAllowed = 'move';
+      });
+      n.addEventListener('dragend', () => { dragId = null; });
+    }
+    function setIcs(text, name) {
+      if (!/BEGIN:VCALENDAR/i.test(text)) { say('That does not look like an .ics calendar.'); return false; }
+      let parsed; try { parsed = C.parseICS(text); } catch { parsed = []; }
+      events = parsed; state.ics = { text: text.length > 4e6 ? '' : text, name, updated: Date.now() };
+      save(); render();
+      const sk = C.skippedCount(events);
+      say('Calendar loaded: ' + C.occurrencesOn(events, now()).length + ' event(s) today.' + (sk ? ' ' + skipText(sk) : '')); return true;
+    }
+    const skipText = (n) => n + ' repeating event' + (n === 1 ? '' : 's') + ' skipped (unsupported repeat rule).';
+    function render() {
+      const d = now(); const today = C.dayKey(d);
+      dateH.textContent = d.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
+      // scheduled tasks from previous days go back to the tray
+      for (const t of state.tasks) if (t.start != null && t.day !== today) { t.start = null; t.day = today; }
+      tray.replaceChildren(); layer.replaceChildren(); allDay.replaceChildren();
+      const un = state.tasks.filter((t) => t.start == null);
+      if (!un.length) tray.append(el('li', { class: 'dt-empty', text: 'No unscheduled tasks.' }));
+      for (const t of un) {
+        const timeIn = el('input', { type: 'time', step: '900', 'aria-label': 'Start time for ' + t.title, onchange: () => { const m = C.parseHM(timeIn.value); if (m != null) placeTask(t.id, m); } });
+        const li = el('li', { class: 'dt-task', 'data-id': t.id, tabindex: '0', 'aria-label': t.title + ', ' + t.dur + ' minutes, unscheduled' },
+          el('span', { class: 'dt-tt', text: t.title }), el('span', { class: 'dt-dur', text: t.dur + 'm' }), timeIn,
+          el('button', { type: 'button', class: 'dt-x', 'aria-label': 'Delete ' + t.title, text: '×', onclick: () => remove(t.id) }));
+        draggable(li, t); tray.append(li);
+      }
+      const occ = C.occurrencesOn(events, d); const dayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+      for (const o of occ) {
+        if (o.allDay) { allDay.append(el('span', { class: 'dt-chip', text: o.title })); continue; }
+        const s = Math.max(0, (o.startMs - dayStart) / 60000), e = Math.min(1440, (o.endMs - dayStart) / 60000);
+        layer.append(el('li', { class: 'dt-ev', style: `top:${s * PPM}px;height:${Math.max(18, (e - s) * PPM)}px`, 'aria-label': 'Calendar: ' + o.title + ', ' + C.fmt(Math.round(s)) },
+          el('b', { text: C.fmt(Math.round(s)) + ' ' }), o.title));
+      }
+      for (const t of state.tasks.filter((x) => x.start != null)) {
+        const n = el('li', { class: 'dt-block', 'data-id': t.id, tabindex: '0', style: `top:${t.start * PPM}px;height:${Math.max(18, t.dur * PPM)}px`,
+          'aria-label': t.title + ', ' + C.fmt(t.start) + ' to ' + C.fmt(t.start + t.dur) + '. Arrow keys move 15 minutes, Delete unschedules.',
+          onkeydown: (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); placeTask(t.id, t.start + (e.key === 'ArrowUp' ? -15 : 15)); }
+            else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); unschedule(t.id); tray.querySelector('.dt-task')?.focus(); }
+          } },
+          el('b', { text: C.fmt(t.start) + '–' + C.fmt(t.start + t.dur) + ' ' }), t.title);
+        draggable(n, t); layer.append(n);
+      }
+      if (!allDay.children.length) allDay.append(el('span', { class: 'dt-note', text: 'No all-day events' }));
+      icsInfo.textContent = state.ics.updated ? 'Loaded ' + (state.ics.name || 'calendar') + ' · ' + new Date(state.ics.updated).toLocaleString() : 'No calendar loaded. Data stays in your browser.';
+      const sk = C.skippedCount(events); skipInfo.textContent = sk ? skipText(sk) : ''; skipInfo.hidden = !sk;
+      tickNow();
+    }
+    function tickNow() { const d = now(); const m = d.getHours() * 60 + d.getMinutes(); nowLine.style.top = m * PPM + 'px'; nowLine.dataset.min = m; }
+
+    return storage.get(KEY).then((res) => {
+      const s = res && res[KEY]; if (s && typeof s === 'object') state = { ...state, ...s, ics: { ...state.ics, ...(s.ics || {}) } };
+      delete state.ics.url;
+      if (!Array.isArray(state.tasks)) state.tasks = [];
+      if (state.ics.text) { try { events = C.parseICS(state.ics.text); } catch { events = []; } }
+      applyTheme(); render();
+      const d = now(); scroller.scrollTop = Math.max(0, (d.getHours() * 60 + d.getMinutes() - 90) * PPM);
+      setInterval(tickNow, 30000);
+      return { get state() { return state; }, render };
+    });
+  }
+  // storage adapters
+  const chromeStorage = () => ({ get: (k) => chrome.storage.local.get(k), set: (o) => chrome.storage.local.set(o) });
+  const memoryStorage = () => { const m = {}; return { get: (k) => Promise.resolve({ [k]: m[k] && JSON.parse(m[k]) }), set: (o) => { for (const k in o) m[k] = JSON.stringify(o[k]); return Promise.resolve(); } }; };
+  G.DTApp = { mount, chromeStorage, memoryStorage, PPM };
+})(globalThis);
+
+DTApp.mount({root:document.getElementById('dt-demo'),storage:DTApp.memoryStorage(),mode:'demo',onFirstUse:vlabDemo});
+</script>
+<footer class="note"><p>Venture Lab is run by AI agents. A human owner sets the rules; the research, product and copy on this page were written by AI and have not been reviewed by a human. Not affiliated with Google. Chrome is a trademark of Google LLC.</p></footer></body></html>
