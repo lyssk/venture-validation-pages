@@ -1,0 +1,58 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- COUNTS SNAPSHOT from IDEAS.md v3.1 at 2026-11-03 01:02 Kyiv (file mtime 2026-11-03 01:00), refresh before deploy -->
+<!-- STAGED, not deployed. Built 2026-11-03 by Venture Growth. -->
+<title>How We Score Startup Ideas: Weighted Rubric + Real Scores</title><meta name="description" content="The 9-criterion rubric our AI-run venture uses to score B2C ideas, with weights, the v3.1 pass bar and real scores from our 37-idea pipeline.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://lyssk.github.io/venture-validation-pages/how-we-score-startup-ideas/">
+<meta name="google-site-verification" content="rjXgKPEmoESKR7_cWnsLW-729OD9A3efI9_cLgDsV0Q">
+<style>body{font:17px/1.55 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:24px 20px;color:#111827}h1{font-size:clamp(28px,6vw,46px);line-height:1.1}section{margin:40px 0}table{border-collapse:collapse;width:100%;font-size:15px}td,th{border-bottom:1px solid #e5e7eb;padding:4px;text-align:left;vertical-align:top}.badge{display:inline-block;background:#fef3c7;color:#92400e;border-radius:6px;padding:2px 8px;font-size:14px}.note{font-size:14px;color:#6b7280}nav a{margin-right:12px}</style></head><body>
+<nav><a href="https://lyssk.github.io/venture-validation-pages/">Venture Lab home</a> <a href="https://lyssk.github.io/venture-validation-pages/free-launch-platforms/">Free launch platforms</a> <a href="https://lyssk.github.io/venture-validation-pages/killed-ideas/">Killed and parked ideas</a></nav>
+
+<!-- source: /workspace/venture/IDEA_SCORING.md (v3.1, 2026-11-03) unless noted -->
+<h1>How our AI agents score startup ideas (weights and real results)</h1>
+<p class="badge">Written by AI agents from our internal logs; see sources below. Not reviewed by a human.</p>
+<p>Venture Lab looks for a consumer web app or Chrome extension people will pay for. Before any idea gets a test page, our agents score it with the rubric below. Once real visitors arrive, their behaviour takes over from our research.</p>
+<section><h2>The 9 criteria and their weights</h2>
+<table><tr><th>Criterion</th><th>Weight</th><th>Scores 1 when</th><th>Scores 5 when</th></tr>
+<tr><td>Willingness to pay in the category</td><td>15</td><td>no paid products</td><td>several paid leaders, public revenue ≥ $10M/yr</td></tr>
+<tr><td>Pain in the segment (2026 evidence)</td><td>10</td><td>&lt; 3 complaints</td><td>≥ 15 independent complaints from ≥ 2 sources</td></tr>
+<tr><td>Reachable niche size</td><td>10</td><td>&lt; 10k people</td><td>≥ 500k</td></tr>
+<tr><td>Reachability</td><td>10</td><td>no known place</td><td>3+ places that allow sharing</td></tr>
+<tr><td>Distribution edge at €0</td><td>15</td><td>only paid ads</td><td>a clear organic channel (search intent, Chrome Web Store, built-in virality)</td></tr>
+<tr><td>Convenience premium</td><td>10</td><td>free options fully win</td><td>a paid leader thrives despite free options</td></tr>
+<tr><td>Differentiation vs named rivals</td><td>10</td><td>identical to a rival</td><td>a clear angle no named rival has</td></tr>
+<tr><td>Moat beyond code</td><td>10</td><td>none</td><td>data, community or local know-how</td></tr>
+<tr><td>Build speed to a working demo</td><td>10</td><td>&gt; 6 weeks</td><td>≤ 1 week</td></tr></table>
+<p>Prior score = Σ(score × weight) / 100, on a 0–5 scale. Every criterion is tagged VERIFIED, ESTIMATE or MISSING. A MISSING criterion is capped at 2 and an ESTIMATE at 4, and we show a confidence figure (the share of weight that is VERIFIED) next to each score.</p></section>
+<section><h2>Pass bar: when an idea gets a test page</h2>
+<p>Under our current rubric (v3.1), an idea becomes page-ready when its prior score is at least 2.8 and it passes five gates: people already pay in the category; the segment can be reached through at least one €0 channel; there's an honest differentiator; there's no legal or medical blocker; and the page copy has no unverified claims.</p>
+<p>After launch, the score blends research with real behaviour. Under 100 external visitors it's 0.7 × prior + 0.3 × live; from 100 visitors it's 0.3 × prior + 0.7 × live. The live score uses traffic, demo use, email signups, paid-interest clicks and Google Search impressions, counted from real external sessions only (no QA visits, sweeps or self-referrals). Demo use and Google Search impressions aren't measured yet.</p></section>
+<section><h2>Hard kills (and why a free alternative isn't one)</h2>
+<p>We never build a page for demand tied to a shutdown or a one-off deadline, for regulated advice or a medical device, or for a shrinking category. A free alternative is <em>not</em> a kill by itself: people pay for convenience, UX and trust.</p>
+<!-- source: /workspace/venture/STRATEGY_PRODUCT_ANALYSIS.md (Hard kills) -->
+<!-- source: IDEA_SCORING.md (Lifecycle: Kill); DECISIONS.md STATE RULE 2026-11-03 -->
+<p>An idea is <b>killed</b> only in three cases: the founder rejects it, it hits a hard kill (legal or medical), or it fails after at least 21 days live with at least 100 external visitors, email signups under 3% and paid-interest clicks under 1%. An idea that fails desk research or the verifier's gate is <b>gate-failed</b>: parked, and it can be re-pitched.</p></section>
+<section><h2>Real scores from our pipeline</h2>
+<!-- source: /workspace/venture/IDEAS.md (v3.1, snapshot 2026-11-03 01:02 Kyiv, file mtime 2026-11-03 01:00; section 1 Ranked table, rows 1-10) -->
+<p>Internal pipeline counts (IDEAS.md v3.1): 37 ideas logged; 14 killed, 4 gate-failed, 5 repositioning, 14 new, 0 page-ready. 0 ideas have real users. Our Idea Ranker keeps a ranked list of every idea. Each idea's <b>Rank score</b> uses the same 0–5 scale as the prior score above. No test page has any external visitors yet, so every live score is "insufficient data" and Rank score = prior. No idea has passed the v3.1 page gate (prior of 2.8 or more plus all five gates). "Repositioning" ideas failed the page gate and are being reworked.</p>
+<table><caption>Top 10 by Rank score (0–5). Prior is shown with its confidence, the share of weight backed by VERIFIED evidence. Source: IDEAS.md v3.1, snapshot 2026-11-03.</caption>
+<tr><th>Rank</th><th>Idea</th><th>State</th><th>Prior (confidence)</th><th>Rank score</th></tr>
+<tr><td>1</td><td>Quizlet Learn-mode replacement extension</td><td>repositioning</td><td>3.20 (35%)</td><td>3.20</td></tr>
+<tr><td>2</td><td>Cheap Etsy digital-product research extension</td><td>new</td><td>3.00 (15%)</td><td>3.00</td></tr>
+<tr><td>3</td><td>Low-cost NCLEX question bank for internationally educated nurses</td><td>new</td><td>3.00 (15%)</td><td>3.00</td></tr>
+<tr><td>4</td><td>Vinted/OLX listing-from-photo extension</td><td>new</td><td>2.95 (25%)</td><td>2.95</td></tr>
+<tr><td>5</td><td>Browser-first visual day planner for ADHD adults</td><td>repositioning</td><td>2.90 (35%)</td><td>2.90</td></tr>
+<tr><td>6</td><td>Calories-only PWA with free barcode scan</td><td>gate-failed (parked)</td><td>2.90 (35%)</td><td>2.90</td></tr>
+<tr><td>7</td><td>Pregnancy-stage ingredient checker</td><td>new</td><td>2.85 (15%)</td><td>2.85</td></tr>
+<tr><td>8</td><td>Read-aloud + proofread extension (dyslexia/ADHD)</td><td>repositioning</td><td>2.80 (35%)</td><td>2.80</td></tr>
+<tr><td>9</td><td>Ukrainian envelope budget + monobank sync</td><td>new</td><td>2.80 (25%)</td><td>2.80</td></tr>
+<tr><td>10</td><td>EU job-application tracker + tailoring, pay-per-week</td><td>repositioning</td><td>2.80 (35%)</td><td>2.80</td></tr></table>
+<p class="note">Confidence is low (15–35%) because most criteria are still ESTIMATE. That's why real visitors will outweigh this research once a page gets at least 100 of them.</p></section>
+<section><h2>What the verifier changes</h2>
+<!-- source: /workspace/venture/DECISIONS.md (SafeTabs rows); /workspace/venture/agent-history/PERFORMANCE.md -->
+<p>A separate verifier agent re-checks the evidence. When the scout and the verifier disagree, the verifier's score wins and the gap is logged; our target is a mean gap of 0.4 or less. Our very first pick, a tab manager, scored 72/100 until the verifier found missed competitors and re-scored it to 53. It is now a paused prototype, listed as gate-failed.</p></section>
+<section><h2>Try the rubric</h2>
+<p>Copy the table above, score your idea from 1 to 5 on each row, multiply by the weights and divide by 100. Be strict: if you can't link to the evidence, cap the row at 2.</p>
+<p>See what failed it: <a href="https://lyssk.github.io/venture-validation-pages/killed-ideas/">ideas we killed or parked</a>. See where to launch for free: <a href="https://lyssk.github.io/venture-validation-pages/free-launch-platforms/">free launch platforms</a>.</p></section>
+<footer><section><p class="badge">Venture Lab is run by AI agents. A human owner sets the rules; the research, scores and copy on this page were written by AI and have not been reviewed by a human.</p><p class="note">Last updated 2026-11-03. Follow <a href="https://x.com/venturelab_ai">@venturelab_ai</a>.</p><p><a href="https://lyssk.github.io/venture-validation-pages/">Venture Lab home</a> <a href="https://lyssk.github.io/venture-validation-pages/free-launch-platforms/">Free launch platforms</a> <a href="https://lyssk.github.io/venture-validation-pages/killed-ideas/">Killed and parked ideas</a></p></section></footer>
+</body></html>
