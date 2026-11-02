@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShareSafe — Screen-share without leaking emails, names or balances</title><meta name="description" content="ShareSafe is a Chrome extension that automatically blurs emails, names, account numbers, balances and other sensitive data. It keeps blurring as you click around, even in single-page apps like dashboards and CRMs.">
+<style>:root{--a:#7c3aed}*{box-sizing:border-box}body{margin:0;font:17px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:#111827;background:#fafafa}
+.w{max-width:960px;margin:0 auto;padding:0 20px}header{padding:18px 0;font-weight:700;font-size:20px}
+.hero{padding:48px 0 32px;text-align:center}.hook{color:var(--a);font-weight:600}h1{font-size:clamp(30px,6vw,50px);line-height:1.1;margin:10px 0}
+.sub{color:#4b5563;max-width:680px;margin:0 auto 26px}form{display:flex;gap:8px;max-width:480px;margin:0 auto;flex-wrap:wrap}
+input{flex:1;min-width:200px;padding:14px;border:1px solid #d1d5db;border-radius:10px;font:inherit}
+button{padding:14px 20px;border:0;border-radius:10px;background:var(--a);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.sec{background:#fff;color:var(--a);border:2px solid var(--a)}.msg{min-height:24px;margin-top:10px;font-weight:600;color:var(--a)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;padding:32px 0}.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px}
+.card h3{margin:0 0 6px;font-size:18px}.price{background:#fff;border:2px solid var(--a);border-radius:16px;padding:28px;text-align:center;margin:24px 0}
+.price .p{font-size:34px;font-weight:800}details{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin:10px 0}summary{font-weight:600;cursor:pointer}
+footer{color:#6b7280;font-size:14px;padding:40px 0;text-align:center}</style></head><body>
+<div class="w"><header>ShareSafe</header>
+<section class="hero"><div class="hook">Ever shared your screen and realized a client's email or your bank balance was showing?</div><h1>Screen-share without leaking emails, names or balances</h1><p class="sub">ShareSafe is a Chrome extension that automatically blurs emails, names, account numbers, balances and other sensitive data. It keeps blurring as you click around, even in single-page apps like dashboards and CRMs.</p>
+<form id="wl"><input type="email" name="email" required placeholder="you@email.com" aria-label="Email"><button type="submit" data-cta="waitlist-hero">Join the waitlist</button></form><div class="msg" id="m1"></div></section>
+<section class="grid"><div class="card"><h3>Auto-detect sensitive data</h3><div>It blurs emails, phone numbers, card and account numbers and currency amounts automatically.</div></div><div class="card"><h3>Stays on as you navigate</h3><div>Blurs persist through page changes and live updates. You don't have to redo them on every reload.</div></div><div class="card"><h3>Saved per-site rules</h3><div>Click any element once and it stays blurred on that site from then on.</div></div><div class="card"><h3>Clean captures</h3><div>No on-screen badges or overlays show up in your recordings.</div></div><div class="card"><h3>100% local</h3><div>Page contents never leave your browser.</div></div><div class="card"><h3>One fair price</h3><div>$29 lifetime, compared with up to $127 for BlurWeb's top tier.</div></div></section>
+<section class="price"><div>Founder pricing</div><div class="p">$29 lifetime</div><p>Reserve now. You won't be charged until it launches, and you can cancel anytime.</p>
+<button class="sec" id="paid" data-cta="paid-interest">Reserve for $29 lifetime</button><div class="msg" id="m2"></div></section>
+<section><h2>FAQ</h2><details><summary>How is it different from BlurWeb?</summary><p>Every feature, including auto-detection and persistent rules, is included for a single $29 lifetime price. BlurWeb's top tier is $127.</p></details><details><summary>Does it work on Zoom, Meet and Loom?</summary><p>Yes. It works on anything you share from Chrome tabs.</p></details><details><summary>Is it available now?</summary><p>Not yet. Join the waitlist and you'll get the beta first.</p></details></section>
+<footer>ShareSafe is in development. We store your email and basic visit events in Supabase only to gauge interest in this product. No spam; delete on request (reply to any email from us).</footer></div>
+<script>
+const FORM_ENDPOINT = 'https://pbihlxszsrpdggjixngl.supabase.co/rest/v1/events';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiaWhseHN6c3JwZGdnaml4bmdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2NTA5OTYsImV4cCI6MjEwOTIyNjk5Nn0.dt8AP9PI41XQ7VBeGpmUbMnuJS3rjlr0r0ELQqUsreE'; // public anon key: insert-only via RLS
+const TEST = 'screenshare-redactor';
+let sid; try { sid = (sessionStorage.vid ||= Math.random().toString(36).slice(2)); } catch { sid = Math.random().toString(36).slice(2); }
+const params = Object.fromEntries(new URLSearchParams(location.search));
+const cut = (v, n) => v == null ? null : String(v).slice(0, n);
+function log(event, email = null) {
+  const row = { page: TEST, event, email, referrer: cut(document.referrer || null, 1024), utm_source: cut(params.utm_source || null, 128), session_id: sid, user_agent: cut(navigator.userAgent, 512) };
+  console.log('[fd]', row);
+  return fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON_KEY, Authorization: 'Bearer ' + ANON_KEY, Prefer: 'return=minimal' }, body: JSON.stringify(row), keepalive: true }).then(r => { window.__fdLast = r.status; return r.status; }).catch(e => { window.__fdLast = 'err'; });
+}
+log('page_view');
+document.querySelectorAll('[data-cta="waitlist-hero"]').forEach(b => b.addEventListener('click', () => log('cta_click')));
+document.getElementById('wl').addEventListener('submit', ev => { ev.preventDefault(); const email = ev.target.email.value.trim().slice(0, 254); log('email_submit', email); ev.target.reset(); document.getElementById('m1').textContent = "You're on the list. We'll email you at launch."; });
+document.getElementById('paid').addEventListener('click', () => { log('paid_interest_click'); document.getElementById('m2').innerHTML = 'Thanks! Checkout isn\'t open yet. Leave your email above and you\'ll get the founder price first.'; document.querySelector('#wl input').focus(); });
+</script></body></html>
