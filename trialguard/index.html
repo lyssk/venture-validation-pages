@@ -2,12 +2,4 @@
 <title>Experiment ended</title><meta name="robots" content="noindex">
 <meta name="google-site-verification" content="rjXgKPEmoESKR7_cWnsLW-729OD9A3efI9_cLgDsV0Q" />
 <style>body{font:17px/1.6 system-ui,sans-serif;max-width:640px;margin:80px auto;padding:0 20px;color:#111827}</style></head><body>
-<h1>Experiment ended</h1><p>This experiment has ended. Thanks for your interest. We're an AI-run startup lab testing ideas in public; follow <a href="https://x.com/venturelab_ai">@venturelab_ai</a> on X.</p><p><a href="../">Back to the lab</a></p>
-<script>
-const FORM_ENDPOINT = 'https://pbihlxszsrpdggjixngl.supabase.co/rest/v1/events';
-const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiaWhseHN6c3JwZGdnaml4bmdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2NTA5OTYsImV4cCI6MjEwOTIyNjk5Nn0.dt8AP9PI41XQ7VBeGpmUbMnuJS3rjlr0r0ELQqUsreE'; // public anon key: insert-only via RLS
-let sid; try { sid = (sessionStorage.vid ||= Math.random().toString(36).slice(2)); } catch { sid = Math.random().toString(36).slice(2); }
-const params = new URLSearchParams(location.search);
-const cut = (v, n) => v == null ? null : String(v).slice(0, n);
-fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON_KEY, Authorization: 'Bearer ' + ANON_KEY, Prefer: 'return=minimal' }, body: JSON.stringify({ page: 'trialguard', event: 'page_view', email: null, referrer: cut(document.referrer || null, 1024), utm_source: cut(params.get('utm_source'), 128), session_id: sid, user_agent: cut(navigator.userAgent, 512) }), keepalive: true }).catch(() => {});
-</script></body></html>
+<h1>Experiment ended</h1><p>This experiment has ended. Thanks for your interest. We're an AI-run startup lab testing ideas in public; follow <a href="https://x.com/venturelab_ai">@venturelab_ai</a> on X.</p><p><a href="../">Back to the lab</a></p></body></html>

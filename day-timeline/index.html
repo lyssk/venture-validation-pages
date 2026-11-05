@@ -4,7 +4,7 @@
 <link rel="canonical" href="https://lyssk.github.io/venture-validation-pages/day-timeline/">
 <meta name="google-site-verification" content="rjXgKPEmoESKR7_cWnsLW-729OD9A3efI9_cLgDsV0Q" />
 <style>body{font:17px/1.55 system-ui,sans-serif;max-width:760px;margin:0 auto;padding:24px 20px;color:#111827}h1{font-size:clamp(28px,6vw,46px);line-height:1.1}
-form{display:flex;gap:8px;flex-wrap:wrap}input[type=email]{flex:1;min-width:220px;padding:12px;border:1px solid #d1d5db;border-radius:10px}button{padding:12px 18px;border:0;border-radius:10px;background:#111827;color:#fff;cursor:pointer}
+button{padding:12px 18px;border:0;border-radius:10px;background:#111827;color:#fff;cursor:pointer}
 .msg{margin-top:8px;color:#065f46}.gdpr{font-size:16px;color:#4b5563;margin-top:10px}section{margin:40px 0}.demo{border:1px solid #e5e7eb;border-radius:14px;padding:16px;background:#f9fafb}.demo input,.demo select,.demo textarea{font:inherit;padding:8px;border:1px solid #d1d5db;border-radius:8px;max-width:100%}.demo textarea{width:100%;box-sizing:border-box}.demo button{padding:8px 12px;margin:2px}.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}.note{font-size:14px;color:#6b7280}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.col{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:8px;font-size:14px}.card{border:1px solid #d1d5db;border-radius:8px;padding:6px;margin:6px 0;background:#fff}.hl{background:#fde68a}.bar{height:14px;background:#e5e7eb;border-radius:7px;overflow:hidden}.bar>div{height:100%;background:#059669}table{border-collapse:collapse;width:100%;font-size:15px}td,th{border-bottom:1px solid #e5e7eb;padding:4px;text-align:left}.badge{display:inline-block;background:#fef3c7;color:#92400e;border-radius:6px;padding:2px 8px;font-size:14px}details{margin:8px 0}summary{font-weight:600;cursor:pointer}.hero{padding-top:8px}.hero .badge{margin:4px 0}.trust{font-weight:600;margin:14px 0 4px}.ailine{font-size:14px;color:#6b7280;margin:18px 0 0;padding-top:10px;border-top:1px solid #e5e7eb}footer{margin:48px 0 24px;padding-top:16px;border-top:1px solid #e5e7eb}@media(max-width:480px){body{padding:16px 14px}h1{font-size:30px}#dt-demo{height:560px}}</style></head><body>
 <section class="hero"><h1>Your day as a timeline, on every new tab</h1><p>For people who plan their day in time blocks. Every new Chrome tab shows today's schedule with a line at the current time. Drag tasks onto the timeline and see your Google or Outlook meetings by importing an exported .ics file (a snapshot you re-import to refresh, no live sync). No account, and nothing leaves your browser.</p>
 <p><span class="badge">Free Chrome extension · now in the Chrome Web Store.</span></p><a id="heroCta" data-cta="hero" href="https://chromewebstore.google.com/detail/blkakdmbhbkfhmpcnlgaganibcagdfdf?utm_source=venture-page&utm_medium=landing" target="_blank" rel="noopener" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#111827;color:#fff;text-decoration:none;font-weight:600">Add to Chrome — free</a> <a href="#demo" style="display:inline-block;padding:11px 16px;border-radius:10px;border:1px solid #d1d5db;color:#111827;text-decoration:none;margin:6px 0 0 6px">Try the demo</a><p class="trust">The extension: no account, no analytics, no network requests.</p><p class="note">Installs on desktop Chrome. The demo below works on any device.</p><p class="ailine">Built by Venture Lab, an AI-run studio. Copy written by AI agents.</p></section>
@@ -36,19 +36,23 @@ form{display:flex;gap:8px;flex-wrap:wrap}input[type=email]{flex:1;min-width:220p
 .dt-now{position:absolute;left:56px;right:0;height:2px;background:var(--now);z-index:3;pointer-events:none}.dt-now::before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--now)}
 .dt-status{position:absolute;left:-9999px}
 @media (max-width:640px){.dt-body{grid-template-columns:1fr;height:auto}.dt-scroll{max-height:70vh}}
+.dt-ext{display:flex;flex-direction:column}.dt-ext>.dt-body{flex:1 1 auto;min-height:0;height:auto}
+.dt-small{padding:3px 10px;font-size:13px}.dt-hint{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 20px;background:var(--acc2);color:var(--fg);font-size:14px;border-bottom:1px solid var(--line)}.dt-hint>span{flex:1 1 auto}
+.dt-bm{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:4px 16px;border-bottom:1px solid var(--line);font-size:13px}.dt-bm[hidden]{display:none}
+.dt-bmcell{position:relative}.dt-bmi{display:inline-block;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:3px 8px;border-radius:6px;color:var(--fg);text-decoration:none;background:transparent;border:0;font:inherit;cursor:pointer}
+.dt-bmi:hover{background:var(--ev)}.dt-bmoff{margin-left:auto}
+.dt-bmmenu{position:absolute;left:0;top:100%;z-index:20;list-style:none;margin:2px 0 0;padding:4px;min-width:200px;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.dt-bmmenu li{position:relative}.dt-bmmenu .dt-bmi{display:block;max-width:320px;text-align:left;width:100%}.dt-bmmenu .dt-bmmenu{left:100%;top:0}
+.dt-bmtoggle{margin-left:auto;margin-right:8px}
 #dt-demo{height:620px;border-radius:10px;overflow:hidden;position:relative}#dt-demo .dt-btn{padding:7px 12px;margin:0}</style><div id="dt-demo"></div><p class="note">The demo keeps everything in this page only and forgets it when you close the tab. Upload an .ics file to see your calendar; it is read in your browser and nothing is uploaded to us.</p></div></section>
 <section class="content"><h2>What it does</h2><ul><li>A visual timeline of today with a line showing the current time.</li><li>Drag a task to set its start time. It snaps to 15 minutes, and every task keeps its own start time.</li><li>Import any .ics calendar file, read-only.</li><li>No account. Data stays in your browser (chrome.storage.local).</li><li>Keyboard accessible, with light and dark mode.</li><li>No analytics in the extension, and it makes no network requests.</li><li>Optional: show your own bookmarks bar items on the new tab. Chrome asks for the bookmarks permission only if you turn this on; bookmarks are read in your browser and never sent anywhere.</li></ul><p><a href="privacy/">Extension privacy policy</a></p></section>
-<section id="signup"><h2>Get notified about Pro</h2><p class="note">Optional. The free extension needs no email.</p>
-<form id="wl" novalidate><input type="email" name="email" required maxlength="254" placeholder="you@example.com" aria-label="Email"><button type="submit">Notify me</button>
-<label class="gdpr" style="flex-basis:100%"><input type="checkbox" id="consent" name="consent" required> I agree to Illia Usyk (Venture Lab) storing my email to tell me when Pro (planned: sync across devices, templates) is available.</label></form>
-<div class="msg" id="m1" role="status"></div>
-<details class="gdpr"><summary>Privacy details</summary><p><b>Privacy notice.</b> Controller: Illia Usyk, Dorogozhytska St, Kyiv 02000, Ukraine, contact <a href="mailto:iuui3580@gmail.com">iuui3580@gmail.com</a>. Purpose: a list to tell you when Pro is available, and to measure interest in it. The free extension itself sends us nothing (see the <a href="privacy/">extension privacy policy</a>). Legal basis: your consent (GDPR Art. 6(1)(a)), which you can withdraw at any time. Retention: until this test ends plus 90 days, then deleted. Processor: Supabase (data hosted in the EU, Frankfurt). Supabase's parent company is in the US, so personal data may be accessed from or transferred to the US; such transfers are covered by the EU Standard Contractual Clauses (SCCs) in Supabase's data processing agreement. We also record basic visit events (page, referrer, campaign tags, a random session ID, browser type) without cookies; the legal basis for these visit events is our legitimate interest in measuring interest in this product idea (GDPR Art. 6(1)(f)). To unsubscribe, delete your data, or access it, email <a href="mailto:iuui3580@gmail.com?subject=Delete%20my%20data">iuui3580@gmail.com</a>. You may also complain to your data protection authority.</p></details></section>
+<section id="privacy-note" class="note"><p><b>Privacy.</b> This page no longer records visit events and does not collect emails; it sends nothing to us. Visit events and email sign-ups stored earlier were deleted together with our database on 2026-11-05. Controller: Illia Usyk, Dorogozhytska St, Kyiv 02000, Ukraine, contact <a href="mailto:iuui3580@gmail.com">iuui3580@gmail.com</a>. GitHub Pages, which hosts this site, may keep standard server logs under GitHub's own privacy statement.</p></section>
 <section class="price"><h2>Pro (planned, not available yet)</h2>
-<p>Pro would add optional sync across devices and templates. The free extension stays local-only and never syncs.</p><p>Planned price: €3/month. No payment is taken. Clicking tells us you'd pay. Leave your email above if you want to hear when it launches.</p>
-<button id="paid">I'd want Pro for €3/month</button><div class="msg" id="m2" role="status"></div></section>
+<p>Pro would add optional sync across devices and templates. The free extension stays local-only and never syncs.</p><p>Planned price: €3/month. No payment is taken. Pro is not available yet.</p>
+</section>
 <script>
-const FORM_ENDPOINT = 'https://pbihlxszsrpdggjixngl.supabase.co/rest/v1/events';
-const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiaWhseHN6c3JwZGdnaml4bmdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2NTA5OTYsImV4cCI6MjEwOTIyNjk5Nn0.dt8AP9PI41XQ7VBeGpmUbMnuJS3rjlr0r0ELQqUsreE'; // public anon key: insert-only via RLS
+// Tracking is OFF: the Supabase project was deleted on 2026-11-05. Re-enable via TRACKING_ENABLED in build.py.
+const TRACKING_ENABLED = false;
 const PAGE_SLUG = 'day-timeline';
 const ss = (() => { try { return sessionStorage; } catch { return {}; } })();
 const q = new URLSearchParams(location.search);
@@ -67,40 +71,11 @@ function log(event, email = null) {
   const row = { page: PAGE_SLUG, event, email, referrer: cut(document.referrer, 1024),
     utm_source: isQA ? cut(/^qa/i.test(ss.utm_source || '') ? ss.utm_source : 'qa-' + (ss.utm_source || 'direct'), 128) : cut(ss.utm_source, 128), utm_medium: cut(ss.utm_medium, 128), utm_campaign: cut(ss.utm_campaign, 128),
     session_id: sid, user_agent: cut(navigator.userAgent, 512) };
-  return fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON_KEY, Authorization: 'Bearer ' + ANON_KEY, Prefer: 'return=minimal' }, body: JSON.stringify(row), keepalive: true })
-    .then(r => r.ok, () => false); // resolves true only on a 2xx insert
+  return Promise.resolve(false); // no-op: tracking disabled, no network request
 }
 log('page_view');
 // cta_click = hero CTA (opens the Chrome Web Store listing in a new tab) only
 document.getElementById('heroCta').addEventListener('click', () => { log('cta_click'); }); // new-tab link to the store; keepalive lets the log finish
-const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-// Per-page set of lowercased emails saved from this browser (UX only; real dedupe = count(distinct lower(email)) in the funnel)
-const SKEY = 'vlab_signed_' + PAGE_SLUG;
-const signedSet = () => { try { const v = JSON.parse(localStorage[SKEY] || '[]'); return Array.isArray(v) ? v : []; } catch { return []; } };
-const addSigned = e => { try { const v = signedSet(); if (!v.includes(e)) v.push(e); localStorage[SKEY] = JSON.stringify(v); } catch {} };
-const signedUp = () => signedSet().length > 0;  // an email was actually saved (2xx) on THIS page
-document.getElementById('wl').addEventListener('submit', ev => {
-  ev.preventDefault();
-  const m = document.getElementById('m1'); const email = ev.target.querySelector('input[type=email]').value.trim().toLowerCase().slice(0, 254);
-  if (!EMAIL_RE.test(email)) { m.textContent = 'Please enter a valid email address.'; return; }
-  if (!document.getElementById('consent').checked) { m.textContent = 'Please tick the consent box so we can store your email.'; return; }
-  if (signedSet().includes(email)) { m.textContent = "You're already on the list."; return; }   // same email + page only
-  const btn = ev.target.querySelector('button[type=submit]'); btn.disabled = true;
-  return log('email_submit', email).then(ok => {  // only after a valid submit
-    btn.disabled = false;
-    if (!ok) { m.textContent = 'Something went wrong, please try again.'; return; }
-    addSigned(email);
-    ev.target.reset(); m.textContent = "You're on the list. We'll email you when Pro is available.";
-  });
-});
-document.getElementById('paid').addEventListener('click', () => {
-  const m2 = document.getElementById('m2'); document.getElementById('m1').textContent = '';
-  return log('paid_interest_click').then(ok => {
-    if (!ok) { m2.textContent = 'Something went wrong, please try again.'; return; }
-    if (signedUp()) m2.textContent = "Thanks! No payment is taken. We'll email you if Pro launches.";
-    else { m2.textContent = 'Thanks! No payment is taken. Leave your email above and we\'ll tell you if Pro launches.'; document.querySelector('#wl input').focus(); }
-  });
-});
 </script>
 <script>
 const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAGE_SLUG]='1';}catch{} log('demo_use');};
