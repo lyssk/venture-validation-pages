@@ -11,7 +11,7 @@ form{display:flex;gap:8px;flex-wrap:wrap}input[type=email]{flex:1;min-width:220p
 <section id="demo"><h2>Try it here (same code as the extension)</h2><div class="demo"><style>.dt{--bg:#fafaf9;--fg:#1c1917;--mut:#57534e;--line:#e7e5e4;--card:#fff;--acc:#2563eb;--acc2:#dbeafe;--ev:#f5f5f4;--now:#dc2626;--focus:#f59e0b;color:var(--fg);background:var(--bg);font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
 .dt[data-theme=dark]{--bg:#18181b;--fg:#f4f4f5;--mut:#a1a1aa;--line:#3f3f46;--card:#27272a;--acc:#60a5fa;--acc2:#1e3a8a;--ev:#3f3f46;--now:#f87171}
 @media (prefers-color-scheme:dark){.dt[data-theme=auto]{--bg:#18181b;--fg:#f4f4f5;--mut:#a1a1aa;--line:#3f3f46;--card:#27272a;--acc:#60a5fa;--acc2:#1e3a8a;--ev:#3f3f46;--now:#f87171}}
-.dt *{box-sizing:border-box}.dt-head{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line)}
+.dt *{box-sizing:border-box}.dt-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--line)}
 .dt-date{font-size:22px;margin:0;font-weight:650}.dt-body{display:grid;grid-template-columns:minmax(240px,320px) 1fr;gap:0;height:calc(100% - 58px)}
 .dt-side{padding:16px 20px;border-right:1px solid var(--line);overflow:auto}.dt-side h2{font-size:16px;margin:0 0 8px}
 .dt-add{display:flex;gap:6px;flex-wrap:wrap}.dt-add input[type=text]{flex:1 1 120px;min-width:0}
@@ -44,8 +44,60 @@ form{display:flex;gap:8px;flex-wrap:wrap}input[type=email]{flex:1;min-width:220p
 .dt-bmmenu{position:absolute;left:0;top:100%;z-index:20;list-style:none;margin:2px 0 0;padding:4px;min-width:200px;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
 .dt-bmmenu li{position:relative}.dt-bmmenu .dt-bmi{display:block;max-width:320px;text-align:left;width:100%}.dt-bmmenu .dt-bmmenu{left:100%;top:0}
 .dt-bmtoggle{margin-left:auto;margin-right:8px}
+
+/* ---- 0.2.0: navigation, views, editor, widgets, settings ---- */
+.dt-nav,.dt-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.dt-titlewrap{display:flex;align-items:baseline;gap:8px;margin:0 6px;min-width:0}.dt-date{white-space:nowrap}
+.dt-rel{font-size:12px;font-weight:600;color:var(--acc);background:var(--acc2);border-radius:999px;padding:2px 8px}.dt-rel[hidden]{display:none}
+.dt-icon{padding:5px 11px;font-size:18px;line-height:1}.dt-btn:disabled{opacity:.45;cursor:default}
+.dt .dt-datein{padding:5px 6px;font-size:13px;color:var(--mut)}
+.dt-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.dt-segb{font:inherit;font-size:14px;padding:6px 12px;border:0;background:transparent;color:var(--fg);cursor:pointer}.dt-segb+.dt-segb{border-left:1px solid var(--line)}
+.dt-segb.dt-on{background:var(--acc);color:#fff}
+.dt-link{font:inherit;font-size:13px;background:none;border:0;color:var(--acc);padding:6px 0 0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.dt-dayview,.dt-weekview,.dt-monthview{display:flex;flex-direction:column;flex:1;min-height:0}.dt-dayview[hidden],.dt-weekview[hidden],.dt-monthview[hidden]{display:none}
+.dt-chipt{border:0;font:inherit;font-size:13px;color:var(--fg);background:var(--acc2);cursor:pointer;border-left:3px solid var(--acc);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dt-block{left:50%;width:50%}.dt-rep{border-left-style:dashed}.dt-repi{opacity:.8}
+.dt-ev,.dt-block{box-shadow:0 0 0 1px var(--bg)}
+/* week */
+.dt-wkhead,.dt-wkad{display:grid;grid-template-columns:64px repeat(7,1fr);border-bottom:1px solid var(--line);padding-right:16px}
+.dt-wkday{font:inherit;background:none;border:0;color:var(--fg);padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;border-radius:8px}
+.dt-wkday:hover{background:var(--ev)}.dt-wkdn{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}.dt-wkdd{font-size:18px;font-weight:650}
+.dt-wkday.dt-today .dt-wkdd{color:#fff;background:var(--acc);border-radius:999px;min-width:30px;text-align:center}.dt-wkday.dt-sel{box-shadow:inset 0 -2px 0 var(--acc)}
+.dt-wkad{min-height:30px}.dt-wkadl{align-self:center;padding-left:10px;font-size:12px}.dt-wkadc{display:flex;flex-direction:column;gap:2px;padding:3px;min-width:0;border-left:1px solid var(--line)}
+.dt-wkadc .dt-chip{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dt-wkgrid{position:relative;margin:0 16px 0 0}.dt-wkcols{position:absolute;left:64px;right:0;top:0;bottom:0;display:grid;grid-template-columns:repeat(7,1fr)}
+.dt-wkcol{list-style:none;margin:0;padding:0;position:relative;border-left:1px solid var(--line)}.dt-wkcol.dt-today{background:color-mix(in srgb,var(--acc2) 30%,transparent)}
+.dt-wkcol .dt-ev,.dt-wkcol .dt-block{font-size:12px;padding:2px 5px;border-radius:6px}.dt-wkcol .dt-block{border-left-width:3px}
+.dt-wknow{left:0}
+/* month */
+.dt-mhead{display:grid;grid-template-columns:repeat(7,1fr);padding:6px 12px 4px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.dt-mhead span{padding-left:8px}
+.dt-mgrid{flex:1;display:grid;grid-template-rows:repeat(6,1fr);gap:4px;padding:0 12px 12px;min-height:0}
+.dt-mrow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;min-height:0}
+.dt-mcell{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer;overflow:hidden;min-height:0;min-width:0}
+.dt-mcell:hover{border-color:var(--acc)}.dt-mcell.dt-out{opacity:.5}.dt-mcell.dt-sel{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.dt-mnum{font-size:13px;font-weight:650}.dt-mcell.dt-today .dt-mnum{color:#fff;background:var(--acc);border-radius:999px;padding:0 7px;align-self:flex-start}
+.dt-mline{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-radius:4px;padding:0 4px}.dt-mt{background:var(--acc2)}.dt-me{background:var(--ev)}.dt-mmore{font-size:12px;color:var(--mut)}
+/* dialogs */
+.dt-dlg{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);padding:18px 20px;width:min(440px,92vw);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.dt-dlg::backdrop{background:rgba(0,0,0,.35)}.dt-dlg h2{font-size:18px;margin:0 0 12px}.dt-dlg h3{font-size:14px;margin:16px 0 6px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.dt-row{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}.dt-row>label:first-child{width:76px;color:var(--mut);font-size:14px}.dt-row input[type=text]{flex:1}
+.dt-inl{font-size:14px;display:inline-flex;align-items:center;gap:4px}.dt-inl input{width:auto}
+.dt-scope{border:1px solid var(--line);border-radius:10px;margin:10px 0;padding:6px 12px;font-size:14px}.dt-scope legend{color:var(--mut);padding:0 4px}.dt-scope label{display:block;margin:4px 0}.dt-scope[hidden]{display:none}
+.dt-err{color:#dc2626;font-size:14px;margin:4px 0;min-height:1em}.dt-dlgbtns{display:flex;gap:8px;align-items:center;margin-top:14px}.dt-grow{flex:1}
+.dt-danger{color:#dc2626;border-color:color-mix(in srgb,#dc2626 40%,var(--line))}.dt-danger[hidden]{display:none}
+.dt-srow{margin:6px 0}.dt-srow label{font-size:15px}.dt-shint{margin:0 0 0 24px}.dt-sub{margin-left:24px}
+/* widgets */
+.dt-widgets{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:8px 20px;border-bottom:1px solid var(--line)}.dt-widgets[hidden]{display:none}
+.dt-search{display:flex;gap:6px;align-items:center;flex:0 1 460px;min-width:220px}.dt-search[hidden]{display:none}.dt .dt-q{flex:1;min-width:0;border-radius:999px;padding:7px 14px}
+.dt-sites{display:flex;gap:4px;flex-wrap:wrap;align-items:center;flex:1 1 auto;min-width:0}.dt-sites[hidden]{display:none}
+.dt-site{display:inline-flex;align-items:center;gap:6px;max-width:150px;padding:3px 8px 3px 3px;border-radius:999px;color:var(--fg);text-decoration:none;font-size:13px}
+.dt-site:hover{background:var(--ev)}.dt-sitel{flex:none;width:22px;height:22px;border-radius:50%;color:#fff;font-weight:700;font-size:12px;display:grid;place-items:center}
+.dt-sitet{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:900px){.dt-wkhead,.dt-wkad{padding-right:0}.dt-date{font-size:18px}}
 #dt-demo{height:620px;border-radius:10px;overflow:hidden;position:relative}#dt-demo .dt-btn{padding:7px 12px;margin:0}</style><div id="dt-demo"></div><p class="note">The demo keeps everything in this page only and forgets it when you close the tab. Upload an .ics file to see your calendar; it is read in your browser and nothing is uploaded to us.</p></div></section>
-<section class="content"><h2>What it does</h2><ul><li>A visual timeline of today with a line showing the current time.</li><li>Drag a task to set its start time. It snaps to 15 minutes, and every task keeps its own start time.</li><li>Import any .ics calendar file, read-only.</li><li>No account. Data stays in your browser (chrome.storage.local).</li><li>Keyboard accessible, with light and dark mode.</li><li>No analytics in the extension, and it makes no network requests.</li><li>Optional: show your own bookmarks bar items on the new tab. Chrome asks for the bookmarks permission only if you turn this on; bookmarks are read in your browser and never sent anywhere.</li></ul><p><a href="privacy/">Extension privacy policy</a></p></section>
+<section class="content"><h2>What it does</h2><ul><li>A visual timeline of today with a line showing the current time.</li><li>Plan ahead: go to tomorrow or any date, and switch between day, week and month views.</li><li>Drag a task to set its start time. It snaps to 15 minutes. In the week view you can drag a task onto any day.</li><li>Repeating tasks: every day, every weekday, every week, every month or every year, including all-day ones like birthdays.</li><li>Optional reminders: a Chrome notification when a task starts, or a few minutes before. Chrome needs to be running.</li><li>A search box that uses your default search engine and opens results in a new tab, plus optional rows for your most visited sites and your bookmarks bar. Chrome asks for each permission only if you turn the row on.</li><li>Import events from a Google Calendar or Outlook export file (.ics). A one-time, read-only snapshot, not live sync.</li><li>No account. Your plan stays in your browser (chrome.storage.local); no analytics in the extension, and it makes no network requests of its own.</li><li>Keyboard friendly, with light and dark mode.</li></ul><p><a href="privacy/">Extension privacy policy</a></p></section>
 <section id="signup"><h2>Get notified about Pro</h2><p class="note">Optional. The free extension needs no email.</p>
 <form id="wl" novalidate><input type="email" name="email" required maxlength="254" placeholder="you@example.com" aria-label="Email"><button type="submit">Notify me</button>
 <label class="gdpr" style="flex-basis:100%"><input type="checkbox" id="consent" name="consent" required> I agree to Illia Usyk (Venture Lab) storing my email to tell me when Pro (planned: sync across devices, templates) is available.</label></form>
@@ -134,10 +186,12 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
     return { name, params, value };
   }
   // Wall-clock time in an IANA zone -> epoch ms. Falls back to local time for unknown zones.
+  const FMT = new Map(); // one formatter per zone (building one per call made big calendars slow)
   function zoned(y, mo, d, h, mi, s, tz) {
     if (!tz) return new Date(y, mo - 1, d, h, mi, s).getTime();
-    let fmtr; try { fmtr = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }); }
-    catch { return new Date(y, mo - 1, d, h, mi, s).getTime(); }
+    let fmtr = FMT.get(tz);
+    if (fmtr === undefined) { try { fmtr = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }); } catch { fmtr = null; } FMT.set(tz, fmtr); }
+    if (!fmtr) return new Date(y, mo - 1, d, h, mi, s).getTime();
     const want = Date.UTC(y, mo - 1, d, h, mi, s); let t = want;
     for (let k = 0; k < 3; k++) {
       const p = {}; for (const x of fmtr.formatToParts(new Date(t))) p[x.type] = +x.value;
@@ -243,10 +297,11 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
   const skippedCount = (events) => events.filter((e) => e.status !== 'CANCELLED' && unsupportedRule(e)).length;
   const sameDate = (a, c) => a.y === c.y && a.mo === c.mo && a.d === c.d;
 
-  // Returns occurrences overlapping the local day of `date`: [{title,startMs,endMs,allDay}]
-  function occurrencesOn(events, date) {
-    const dayStart = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-    const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime();
+  // Calendar occurrences overlapping [from, to) where from/to are local-midnight Dates (to exclusive).
+  // One walk per event for the whole range, so week/month views stay fast.
+  function occurrencesBetween(events, from, to) {
+    const rangeStart = from.getTime(), rangeEnd = to.getTime();
+    const lastDay = new Date(to.getFullYear(), to.getMonth(), to.getDate() - 1);
     const overrides = new Set(events.filter((e) => e.recurrenceId).map((e) => e.uid + '|' + e.recurrenceId.y + '-' + e.recurrenceId.mo + '-' + e.recurrenceId.d));
     const out = [];
     for (const ev of events) {
@@ -257,27 +312,27 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
         : (ev.duration != null ? ev.duration : (s.allDay ? 86400000 : 0));
       const push = (c) => {
         if (s.allDay) {
-          const a = new Date(c.y, c.mo - 1, c.d).getTime(), b = a + Math.max(lenMs, 86400000);
-          if (a < dayEnd && b > dayStart) out.push({ title: ev.title || '(untitled)', startMs: a, endMs: b, allDay: true });
+          const a = new Date(c.y, c.mo - 1, c.d).getTime(), b = new Date(c.y, c.mo - 1, c.d + Math.max(1, Math.round(lenMs / 86400000))).getTime();
+          if (a < rangeEnd && b > rangeStart) out.push({ title: ev.title || '(untitled)', startMs: a, endMs: b, allDay: true, uid: ev.uid || '' });
         } else {
           const a = toMs(s, c.y, c.mo, c.d), b = a + Math.max(0, lenMs);
-          if (a < dayEnd && (b > dayStart || (b === a && a >= dayStart))) out.push({ title: ev.title || '(untitled)', startMs: a, endMs: b, allDay: false });
+          if (a < rangeEnd && (b > rangeStart || (b === a && a >= rangeStart))) out.push({ title: ev.title || '(untitled)', startMs: a, endMs: b, allDay: false, uid: ev.uid || '' });
         }
       };
       if (!ev.rrule || ev.recurrenceId) { push(s); continue; }
       const startN = dnum(s.y, s.mo, s.d);
-      const lastN = dnum(date.getFullYear(), date.getMonth() + 1, date.getDate()) + 1; // +1 covers zone offsets
-      const firstN = lastN - 2 - Math.ceil(Math.max(lenMs, 0) / 86400000);
+      const lastN = dnum(lastDay.getFullYear(), lastDay.getMonth() + 1, lastDay.getDate()) + 1; // +1 covers zone offsets
+      const firstN = dnum(from.getFullYear(), from.getMonth() + 1, from.getDate()) - 1 - Math.ceil(Math.max(lenMs, 0) / 86400000);
       const count = ev.rrule.COUNT ? +ev.rrule.COUNT : Infinity;
       const until = ev.rrule.UNTIL ? parseDT({ value: ev.rrule.UNTIL, params: {} }) : null;
       const untilMs = until ? (until.allDay ? Date.UTC(until.y, until.mo - 1, until.d, 23, 59, 59) : (until.utc ? Date.UTC(until.y, until.mo - 1, until.d, until.h, until.mi, until.s) : toMs({ ...until, tz: s.tz }))) : Infinity;
+      const untilN = until ? dnum(until.y, until.mo, until.d) : Infinity; // days well before UNTIL's date skip the exact check
       let seen = 0;
       // Walk day by day from DTSTART (needed to honour COUNT). Capped at ~60 years.
       for (let n = startN; n <= lastN && n - startN < 22000; n++) {
         const c = fromDnum(n);
         if (n !== startN && !matchesDay(ev, startN, c, n)) continue;
-        const occMs = s.allDay ? Date.UTC(c.y, c.mo - 1, c.d) : toMs(s, c.y, c.mo, c.d);
-        if (occMs > untilMs) break;
+        if (untilMs !== Infinity && n >= untilN - 1) { const occMs = s.allDay ? Date.UTC(c.y, c.mo - 1, c.d) : toMs(s, c.y, c.mo, c.d); if (occMs > untilMs) break; }
         seen++; if (seen > count) break;
         if (n < firstN) continue;
         if (ev.exdates.some((x) => sameDate(x, c))) continue;
@@ -287,12 +342,183 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
     }
     return out.sort((a, b) => a.startMs - b.startMs);
   }
+  // Returns occurrences overlapping the local day of `date`: [{title,startMs,endMs,allDay}]
+  function occurrencesOn(events, date) {
+    return occurrencesBetween(events, new Date(date.getFullYear(), date.getMonth(), date.getDate()), new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1));
+  }
+
+  // ---------- local calendar days (keys 'YYYY-MM-DD'; arithmetic on UTC day numbers, so DST never shifts a date) ----------
+  const isKey = (k) => typeof k === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(k) && (() => { const p = parseKey(k); return p.mo >= 1 && p.mo <= 12 && p.d >= 1 && p.d <= daysInMonth(p.y, p.mo); })();
+  function parseKey(k) { const [y, mo, d] = k.split('-').map(Number); return { y, mo, d }; }
+  const keyN = (k) => { const p = parseKey(k); return dnum(p.y, p.mo, p.d); };
+  const nKey = (n) => { const c = fromDnum(n); return c.y + '-' + pad(c.mo) + '-' + pad(c.d); };
+  const addDays = (k, n) => nKey(keyN(k) + n);
+  const keyDow = (k) => fromDnum(keyN(k)).dow; // 0 = Sunday
+  const keyDate = (k) => { const p = parseKey(k); return new Date(p.y, p.mo - 1, p.d); }; // local midnight
+  function addMonths(k, n) { const p = parseKey(k); const t = p.y * 12 + (p.mo - 1) + n; const y = Math.floor(t / 12), mo = t - y * 12 + 1; return y + '-' + pad(mo) + '-' + pad(Math.min(p.d, daysInMonth(y, mo))); }
+  const weekStartOf = (k, ws) => addDays(k, -((keyDow(k) - (ws || 0) + 7) % 7)); // ws: 0 Sunday, 1 Monday
+  function monthGrid(k, ws) { const p = parseKey(k); const first = weekStartOf(p.y + '-' + pad(p.mo) + '-01', ws); const out = []; for (let i = 0; i < 42; i++) out.push(addDays(first, i)); return out; }
+  // Local epoch ms of minute `min` on day `k`. Nonexistent DST times move forward (Chrome's Date behaviour).
+  const msAt = (k, min) => { const p = parseKey(k); return new Date(p.y, p.mo - 1, p.d, 0, min).getTime(); };
+
+  // ---------- user tasks: one-off or repeating ----------
+  // task: {id,title,dur,start:min|null,day:key,allDay:bool,repeat:null|{freq,until?},skip:[key],from?:seriesId}
+  const REPEATS = ['daily', 'weekdays', 'weekly', 'monthly', 'yearly'];
+  function taskOccursOn(t, k) {
+    if (!isKey(t.day)) return false;
+    const n = keyN(k), s = keyN(t.day);
+    if (!t.repeat || !REPEATS.includes(t.repeat.freq)) return n === s;
+    if (n < s) return false;
+    if (t.repeat.until && isKey(t.repeat.until) && n > keyN(t.repeat.until)) return false;
+    if (Array.isArray(t.skip) && t.skip.includes(k)) return false;
+    const c = fromDnum(n), a = fromDnum(s);
+    switch (t.repeat.freq) {
+      case 'daily': return true;
+      case 'weekdays': return c.dow >= 1 && c.dow <= 5;
+      case 'weekly': return (n - s) % 7 === 0;
+      case 'monthly': return c.d === a.d; // months without that day are skipped (RFC 5545 / Google Calendar behaviour)
+      case 'yearly': return c.mo === a.mo && c.d === a.d; // Feb 29 shows only in leap years
+    }
+    return false;
+  }
+  const isPlaced = (t) => t.allDay || t.start != null; // unscheduled one-offs live in the tray
+  // Items shown on day k: [{task,key,title,start,dur,allDay,repeating}]
+  function tasksOn(tasks, k) {
+    const out = [];
+    for (const t of tasks) if (isPlaced(t) && taskOccursOn(t, k)) out.push({ task: t, key: k, title: t.title, start: t.allDay ? null : t.start, dur: t.dur, allDay: !!t.allDay, repeating: !!t.repeat });
+    return out.sort((a, b) => (a.allDay ? -1 : a.start) - (b.allDay ? -1 : b.start));
+  }
+  function repeatLabel(r, dayK) {
+    if (!r) return 'Does not repeat';
+    const d = keyDate(dayK);
+    switch (r.freq) {
+      case 'daily': return 'Every day';
+      case 'weekdays': return 'Every weekday (Mon–Fri)';
+      case 'weekly': return 'Every week on ' + d.toLocaleDateString(undefined, { weekday: 'long' });
+      case 'monthly': return 'Every month on day ' + parseKey(dayK).d;
+      case 'yearly': return 'Every year on ' + d.toLocaleDateString(undefined, { day: 'numeric', month: 'long' });
+    }
+    return 'Repeats';
+  }
+
+  // ---------- storage migration (0.1.x state -> schema 2). Never drops a task. ----------
+  const SCHEMA = 2;
+  function normTask(t, today) {
+    const dur = Math.max(5, Math.min(1440, Math.round(+t.dur) || 30));
+    let start = t.start == null || t.start === '' ? null : Math.round(+t.start);
+    if (start != null && !(start >= 0 && start < 1440)) start = null;
+    const freq = t.repeat && REPEATS.includes(t.repeat.freq) ? t.repeat.freq : null;
+    const out = { ...t, id: String(t.id || ('m' + Math.random().toString(36).slice(2, 10))), title: String(t.title == null ? '' : t.title).slice(0, 200) || '(untitled)',
+      dur, start, day: isKey(t.day) ? t.day : today, allDay: !!t.allDay, repeat: freq ? { freq, ...(t.repeat.until && isKey(t.repeat.until) ? { until: t.repeat.until } : {}) } : null,
+      skip: Array.isArray(t.skip) ? t.skip.filter(isKey) : [] };
+    if (!out.allDay && out.start == null && out.repeat) out.start = 540; // a repeating task always needs a time; 09:00 fallback
+    return out;
+  }
+  // raw: whatever is stored (undefined, 0.1.x object, or schema 2). Returns {state, from, changed}.
+  function migrateState(raw, today) {
+    const base = { schema: SCHEMA, tasks: [], ics: { text: '', name: '', updated: 0 }, theme: 'auto', view: 'day', weekStart: null };
+    if (!raw || typeof raw !== 'object') return { state: base, from: null, changed: false };
+    const from = raw.schema || 1;
+    const st = { ...base, ...raw, ics: { ...base.ics, ...(raw.ics && typeof raw.ics === 'object' ? raw.ics : {}) } };
+    delete st.ics.url;
+    st.tasks = (Array.isArray(raw.tasks) ? raw.tasks : []).filter((t) => t && typeof t === 'object').map((t) => normTask(t, today));
+    if (!['auto', 'light', 'dark'].includes(st.theme)) st.theme = 'auto';
+    if (!['day', 'week', 'month'].includes(st.view)) st.view = 'day';
+    if (st.weekStart !== 0 && st.weekStart !== 1) st.weekStart = null;
+    st.schema = SCHEMA;
+    return { state: st, from, changed: from !== SCHEMA };
+  }
+  // Daily housekeeping (same rule as 0.1.x): a one-off task scheduled on a past day goes back to the tray.
+  // Occurrences detached from a repeating series stay where they were; ones older than 90 days are dropped.
+  function rollover(tasks, today) {
+    const tn = keyN(today); let changed = false;
+    const out = [];
+    for (const t of tasks) {
+      if (!t.repeat && !t.allDay && t.start != null && !t.from && keyN(t.day) < tn) { out.push({ ...t, start: null, day: today }); changed = true; continue; }
+      if (t.from && !t.repeat && keyN(t.day) < tn - 90) { changed = true; continue; }
+      if (t.skip && t.skip.some((k) => keyN(k) < tn - 90)) { out.push({ ...t, skip: t.skip.filter((k) => keyN(k) >= tn - 90) }); changed = true; continue; }
+      out.push(t);
+    }
+    return { tasks: out, changed };
+  }
+
+  // ---------- edits on one occurrence vs the whole series ----------
+  const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  // fields: {title,dur,start,allDay,day,repeat}; scope: 'one' | 'following' | 'all'. occKey = the occurrence's day.
+  function editTask(tasks, id, occKey, fields, scope) {
+    const t = tasks.find((x) => x.id === id); if (!t) return tasks;
+    if (!t.repeat || scope === 'all') {
+      const upd = { ...t, ...fields };
+      if (t.repeat && scope === 'all') upd.day = fields.repeat ? t.day : (fields.day || occKey); // series keep their start date
+      if (!upd.repeat) upd.skip = [];
+      return tasks.map((x) => (x.id === id ? normTask(upd, upd.day) : x));
+    }
+    if (scope === 'one') {
+      const copy = normTask({ ...t, ...fields, id: newId(), repeat: null, skip: [], from: t.id, day: fields.day || occKey }, occKey);
+      return tasks.map((x) => (x.id === id ? { ...x, skip: [...new Set([...(x.skip || []), occKey])] } : x)).concat(copy);
+    }
+    // 'following': end the old series the day before, start a new series on occKey with the changes
+    const ns = fields.day && isKey(fields.day) ? fields.day : occKey, cut = Math.min(keyN(occKey), keyN(ns));
+    const nxt = normTask({ ...t, ...fields, id: newId(), day: ns, skip: (t.skip || []).filter((k) => keyN(k) >= keyN(ns)) }, ns);
+    const old = { ...t, repeat: { ...t.repeat, until: nKey(cut - 1) } };
+    const keepOld = cut > keyN(t.day);
+    return tasks.flatMap((x) => (x.id === id ? (keepOld ? [old] : []) : [x])).concat(nxt);
+  }
+  function deleteTask(tasks, id, occKey, scope) {
+    const t = tasks.find((x) => x.id === id); if (!t) return tasks;
+    if (!t.repeat || scope === 'all') return tasks.filter((x) => x.id !== id && x.from !== id);
+    if (scope === 'one') return tasks.map((x) => (x.id === id ? { ...x, skip: [...new Set([...(x.skip || []), occKey])] } : x));
+    if (keyN(occKey) <= keyN(t.day)) return tasks.filter((x) => x.id !== id && !(x.from === id && keyN(x.day) >= keyN(occKey)));
+    return tasks.filter((x) => !(x.from === id && keyN(x.day) >= keyN(occKey))).map((x) => (x.id === id ? { ...x, repeat: { ...x.repeat, until: addDays(occKey, -1) } } : x));
+  }
+
+  // ---------- reminders (used by background.js) ----------
+  // Every reminder whose start lies in [fromMs, toMs). opts: {before: minutes, ics: bool}
+  function remindersBetween(tasks, events, fromMs, toMs, opts) {
+    const before = Math.max(0, +(opts && opts.before) || 0) * 60000, out = [];
+    const d0 = new Date(fromMs), d1 = new Date(toMs);
+    let k = dayKey(new Date(d0.getFullYear(), d0.getMonth(), d0.getDate() - 1)); const lastK = dayKey(d1);
+    for (let i = 0; i < 400 && keyN(k) <= keyN(lastK); i++, k = addDays(k, 1)) {
+      for (const o of tasksOn(tasks, k)) {
+        if (o.allDay) continue;
+        const startMs = msAt(k, o.start);
+        if (startMs >= fromMs && startMs < toMs) out.push({ key: 't|' + o.task.id + '|' + k + '|' + o.start, title: o.title, startMs, fireMs: startMs - before });
+      }
+    }
+    if (opts && opts.ics && events && events.length) {
+      const a = new Date(d0.getFullYear(), d0.getMonth(), d0.getDate()), b = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate() + 1);
+      for (const o of occurrencesBetween(events, a, b)) if (!o.allDay && o.startMs >= fromMs && o.startMs < toMs) out.push({ key: 'c|' + o.uid + '|' + o.startMs + '|' + o.title, title: o.title, startMs: o.startMs, fireMs: o.startMs - before });
+    }
+    return out.sort((x, y) => x.fireMs - y.fireMs);
+  }
+  // Reminders to show now: fire time reached, event started at most `graceMs` ago, not shown before.
+  function dueReminders(list, nowMs, shown, graceMs) {
+    const g = graceMs == null ? 5 * 60000 : graceMs;
+    return list.filter((r) => r.fireMs <= nowMs + 1000 && nowMs <= r.startMs + g && !(shown && shown[r.key]));
+  }
+
+  // ---------- side-by-side layout for overlapping blocks ----------
+  // items: [{s,e}] minutes. Returns same order with {lane, lanes}.
+  function layoutLanes(items) {
+    const idx = items.map((it, i) => ({ s: it.s, e: Math.max(it.e, it.s + 15), i })).sort((a, b) => a.s - b.s || b.e - a.e);
+    const res = new Array(items.length); let cluster = [], clusterEnd = -1, laneEnds = [];
+    const flush = () => { const n = laneEnds.length; for (const c of cluster) res[c.i] = { lane: c.lane, lanes: n }; cluster = []; laneEnds = []; };
+    for (const it of idx) {
+      if (it.s >= clusterEnd) { flush(); clusterEnd = -1; }
+      let lane = laneEnds.findIndex((e) => e <= it.s); if (lane < 0) { lane = laneEnds.length; laneEnds.push(0); }
+      laneEnds[lane] = it.e; it.lane = lane; cluster.push(it); clusterEnd = Math.max(clusterEnd, it.e);
+    }
+    flush();
+    return res;
+  }
 
   // Assign start time to exactly one task (by id). Never touches other tasks.
   function scheduleTask(tasks, id, minute) { return tasks.map((t) => (t.id === id ? { ...t, start: snap(minute) } : t)); }
   const yToMinute = (y, pxPerMin) => snap(y / pxPerMin);
 
-  G.DTCore = { unsupportedRule, skippedCount, SNAP, snap, fmt, pad, dayKey, parseHM, parseICS, occurrencesOn, scheduleTask, yToMinute, parseDuration, zoned };
+  G.DTCore = { unsupportedRule, skippedCount, SNAP, snap, fmt, pad, dayKey, parseHM, parseICS, occurrencesOn, occurrencesBetween, scheduleTask, yToMinute, parseDuration, zoned,
+    isKey, parseKey, addDays, addMonths, keyDow, keyDate, weekStartOf, monthGrid, msAt, daysInMonth, REPEATS, taskOccursOn, tasksOn, isPlaced, repeatLabel,
+    SCHEMA, migrateState, normTask, rollover, editTask, deleteTask, newId, remindersBetween, dueReminders, layoutLanes };
   if (typeof module !== 'undefined') module.exports = G.DTCore;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
 
@@ -301,7 +527,7 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
   'use strict';
   const C = G.DTCore;
   const PPM = 1.5; // pixels per minute
-  const KEY = 'dt_state_v1';
+  const KEY = 'dt_state_v1'; // same key as 0.1.x; the object carries schema:2 since 0.2.0
   const el = (tag, attrs = {}, ...kids) => {
     const n = document.createElement(tag);
     for (const [k, v] of Object.entries(attrs)) {
@@ -311,87 +537,215 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
     for (const c of kids) if (c != null) n.append(c);
     return n;
   };
-  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const DURS = [15, 30, 45, 60, 90, 120, 180, 240];
+  const durText = (m) => (m < 60 ? m + ' min' : (m % 60 ? Math.floor(m / 60) + ' h ' + (m % 60) + ' min' : (m / 60) + ' h'));
+  const minsOf = (d) => d.getHours() * 60 + d.getMinutes();
+  function localeWeekStart() {
+    try { const l = new Intl.Locale(navigator.language || 'en'); const wi = (l.getWeekInfo && l.getWeekInfo()) || l.weekInfo; if (wi && wi.firstDay) return wi.firstDay % 7; } catch {}
+    return 1;
+  }
+  // key-order independent JSON (chrome.storage hands objects back with sorted keys)
+  const stable = (v) => JSON.stringify(v, (k, x) => (x && typeof x === 'object' && !Array.isArray(x) ? Object.keys(x).sort().reduce((o, key) => { o[key] = x[key]; return o; }, {}) : x));
+  const typingTarget = (t) => t && (t.closest && t.closest('input,select,textarea,[contenteditable=""],[contenteditable=true],dialog'));
 
   function mount(opts) {
     const root = opts.root, storage = opts.storage;
-    let state = { tasks: [], ics: { text: '', name: '', updated: 0 }, theme: 'auto' };
-    let events = [], firstUse = false, selectedId = null, dragId = null;
-    const used = () => { if (!firstUse) { firstUse = true; opts.onFirstUse && opts.onFirstUse(); } };
+    let state = C.migrateState(null, C.dayKey(new Date())).state;
+    let events = [], firstUse = false, dragId = null, dragOcc = null;
     const now = () => (opts.now ? opts.now() : new Date());
-    const save = () => storage.set({ [KEY]: state });
+    let today = C.dayKey(now()), viewDate = today;
+    const used = () => { if (!firstUse) { firstUse = true; opts.onFirstUse && opts.onFirstUse(); } };
+    let lastSaved = '';
+    const save = () => { lastSaved = stable(state); return storage.set({ [KEY]: state }); };
     const status = el('div', { class: 'dt-status', role: 'status', 'aria-live': 'polite' });
     const say = (t) => { status.textContent = t; };
+    const ws = () => (state.weekStart === 0 || state.weekStart === 1 ? state.weekStart : localeWeekStart());
+    const dayName = (k, o) => C.keyDate(k).toLocaleDateString(undefined, o || { weekday: 'short', day: 'numeric', month: 'short' });
+    const relName = (k) => (k === today ? 'today' : k === C.addDays(today, 1) ? 'tomorrow' : k === C.addDays(today, -1) ? 'yesterday' : dayName(k));
 
-    // ---------- layout ----------
+    // ---------- header: navigation + view switch ----------
     root.classList.add('dt');
-    const dateH = el('h1', { class: 'dt-date' });
+    const dateH = el('h1', { class: 'dt-date', 'aria-live': 'polite' });
+    const relBadge = el('span', { class: 'dt-rel' });
+    const prevBtn = el('button', { type: 'button', class: 'dt-btn dt-ghost dt-icon', text: '‹', onclick: () => step(-1) });
+    const nextBtn = el('button', { type: 'button', class: 'dt-btn dt-ghost dt-icon', text: '›', onclick: () => step(1) });
+    const todayBtn = el('button', { type: 'button', class: 'dt-btn dt-ghost', text: 'Today', title: 'Go to today (T)', onclick: () => goTo(today) });
+    const dateIn = el('input', { type: 'date', class: 'dt-datein', 'aria-label': 'Go to date', title: 'Go to date', onchange: () => { if (C.isKey(dateIn.value)) goTo(dateIn.value); } });
+    const views = {};
+    const viewSw = el('div', { class: 'dt-seg', role: 'group', 'aria-label': 'View' });
+    for (const [v, label, key] of [['day', 'Day', 'D'], ['week', 'Week', 'W'], ['month', 'Month', 'M']]) {
+      views[v] = el('button', { type: 'button', class: 'dt-segb', text: label, title: label + ' view (' + key + ')', onclick: () => setView(v) }); viewSw.append(views[v]);
+    }
     const themeBtn = el('button', { type: 'button', class: 'dt-btn dt-ghost', 'aria-label': 'Theme', onclick: () => { state.theme = { auto: 'light', light: 'dark', dark: 'auto' }[state.theme] || 'auto'; applyTheme(); save(); } });
-    const header = el('header', { class: 'dt-head' }, dateH, themeBtn);
+    const slot = el('span', { class: 'dt-slot' });
+    const header = el('header', { class: 'dt-head' },
+      el('div', { class: 'dt-nav' }, todayBtn, prevBtn, nextBtn, el('div', { class: 'dt-titlewrap' }, dateH, relBadge), dateIn),
+      el('div', { class: 'dt-tools' }, viewSw, slot, themeBtn));
 
+    // ---------- side: tasks tray + calendar file ----------
     const titleIn = el('input', { type: 'text', id: 'dt-title', placeholder: 'New task', 'aria-label': 'Task name', maxlength: '120', required: true });
     const durIn = el('select', { id: 'dt-dur', 'aria-label': 'Duration' });
-    for (const m of [15, 30, 45, 60, 90, 120, 180]) durIn.append(el('option', { value: m, text: m < 60 ? m + ' min' : (m / 60) + ' h' }));
+    for (const m of DURS) durIn.append(el('option', { value: m, text: durText(m) }));
     durIn.value = '30';
-    const addForm = el('form', { class: 'dt-add', onsubmit: (e) => { e.preventDefault(); const t = titleIn.value.trim(); if (!t) { titleIn.focus(); return; } used(); state.tasks.push({ id: uid(), title: t, dur: +durIn.value, start: null, day: C.dayKey(now()) }); titleIn.value = ''; save(); render(); say('Added "' + t + '". Drag it onto the timeline, or pick a time.'); } },
-      titleIn, durIn, el('button', { type: 'submit', class: 'dt-btn' , text: 'Add' }));
+    const addForm = el('form', { class: 'dt-add', onsubmit: (e) => { e.preventDefault(); const t = titleIn.value.trim(); if (!t) { titleIn.focus(); return; } used(); state.tasks.push(C.normTask({ id: C.newId(), title: t, dur: +durIn.value, start: null, day: today }, today)); titleIn.value = ''; save(); render(); say('Added "' + t + '". Drag it onto the timeline, or pick a time.'); } },
+      titleIn, durIn, el('button', { type: 'submit', class: 'dt-btn', text: 'Add' }));
+    const moreBtn = el('button', { type: 'button', class: 'dt-link', text: 'Add with date, time or repeat…', onclick: () => { openEditor({ title: titleIn.value.trim(), dur: +durIn.value }); titleIn.value = ''; } });
     const tray = el('ul', { class: 'dt-tray', 'aria-label': 'Unscheduled tasks' });
     trayDrop(tray);
-
     const fileIn = el('input', { type: 'file', accept: '.ics,text/calendar', id: 'dt-file', class: 'dt-file', onchange: async () => { const f = fileIn.files[0]; if (!f) return; used(); const text = await f.text(); setIcs(text, f.name); fileIn.value = ''; } });
     const icsInfo = el('p', { class: 'dt-note' });
     const skipInfo = el('p', { class: 'dt-warn', role: 'note' });
     const calBox = el('details', { class: 'dt-cal' },
-      el('summary', { text: 'Calendar (.ics, read-only)' }),
+      el('summary', { text: 'Import calendar file (.ics, read-only)' }),
       el('label', { class: 'dt-btn dt-ghost dt-filelbl', for: 'dt-file' }, 'Upload .ics file'), fileIn,
       icsInfo,
       el('button', { type: 'button', class: 'dt-btn dt-ghost', text: 'Remove calendar', onclick: () => { used(); state.ics = { text: '', name: '', updated: 0 }; events = []; save(); render(); say('Calendar removed.'); } }));
-    const side = el('aside', { class: 'dt-side' }, el('h2', { text: 'Tasks' }), addForm, tray,
-      el('p', { class: 'dt-note', text: 'Tip: drag a task onto the timeline (snaps to 15 min). Keyboard: focus a task, then use the time picker; on the timeline, ↑/↓ moves it 15 min, Delete unschedules.' }), calBox);
+    const tip = el('p', { class: 'dt-note' });
+    const side = el('aside', { class: 'dt-side' }, el('h2', { text: 'Tasks' }), addForm, moreBtn, tray, tip, calBox);
 
-    const allDay = el('div', { class: 'dt-allday', 'aria-label': 'All-day events' });
+    // ---------- day view ----------
+    const allDay = el('div', { class: 'dt-allday', 'aria-label': 'All-day items' });
     const grid = el('div', { class: 'dt-grid', style: 'height:' + 1440 * PPM + 'px' });
     const nowLine = el('div', { class: 'dt-now', 'aria-hidden': 'true' });
     const scroller = el('div', { class: 'dt-scroll', tabindex: '-1' }, grid);
     for (let h = 0; h < 24; h++) grid.append(el('div', { class: 'dt-hour', style: 'top:' + h * 60 * PPM + 'px' }, el('span', { text: C.pad(h) + ':00' })));
     grid.append(nowLine);
-    const layer = el('ol', { class: 'dt-layer', 'aria-label': 'Today\'s timeline' }); grid.append(layer);
-    grid.addEventListener('dragover', (e) => { if (dragId) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; } });
-    grid.addEventListener('drop', (e) => {
-      e.preventDefault(); const id = dragId || e.dataTransfer.getData('text/x-dt-task'); dragId = null; if (!id) return;
-      const r = grid.getBoundingClientRect(); const t = state.tasks.find((x) => x.id === id); if (!t) return;
-      const grab = +(e.dataTransfer.getData('text/x-dt-offset') || 0);
-      const m = C.yToMinute(e.clientY - r.top - grab, PPM); placeTask(id, m);
-    });
-    const main = el('main', { class: 'dt-main' }, skipInfo, allDay, scroller);
+    const layer = el('ol', { class: 'dt-layer', 'aria-label': 'Timeline' }); grid.append(layer);
+    dropZone(grid, () => viewDate);
+    const dayView = el('div', { class: 'dt-dayview' }, allDay, scroller);
+    const weekView = el('div', { class: 'dt-weekview' });
+    const monthView = el('div', { class: 'dt-monthview' });
+    const main = el('main', { class: 'dt-main' }, skipInfo, dayView, weekView, monthView);
     root.append(header, el('div', { class: 'dt-body' }, side, main), status);
 
+    // ---------- editor dialog ----------
+    const ed = {};
+    ed.title = el('input', { type: 'text', id: 'dt-ed-title', maxlength: '120', autocomplete: 'off' });
+    ed.date = el('input', { type: 'date', id: 'dt-ed-date' });
+    ed.allDay = el('input', { type: 'checkbox', id: 'dt-ed-allday' });
+    ed.start = el('input', { type: 'time', id: 'dt-ed-start', step: '300' });
+    ed.dur = el('select', { id: 'dt-ed-dur' }); for (const m of DURS) ed.dur.append(el('option', { value: m, text: durText(m) }));
+    ed.repeat = el('select', { id: 'dt-ed-repeat' });
+    ed.err = el('p', { class: 'dt-err', role: 'alert' });
+    ed.scope = el('fieldset', { class: 'dt-scope' }, el('legend', { text: 'This is a repeating task. Apply to:' }));
+    for (const [v, t] of [['one', 'This day only'], ['following', 'This and following days'], ['all', 'All days']])
+      ed.scope.append(el('label', {}, el('input', { type: 'radio', name: 'dt-scope', value: v, onchange: () => syncScope() }), ' ' + t));
+    ed.del = el('button', { type: 'button', class: 'dt-btn dt-ghost dt-danger', text: 'Delete', onclick: () => edDelete() });
+    ed.h = el('h2', { id: 'dt-ed-h' });
+    const row = (label, input, extra) => el('div', { class: 'dt-row' }, el('label', { for: input.id, text: label }), input, extra || null);
+    ed.form = el('form', { method: 'dialog', novalidate: true, onsubmit: (e) => { e.preventDefault(); edSave(); } },
+      ed.h, row('Title', ed.title), row('Date', ed.date),
+      el('div', { class: 'dt-row' }, el('label', { for: 'dt-ed-start', text: 'Start' }), ed.start, el('label', { class: 'dt-inl' }, ed.allDay, ' All day')),
+      row('Duration', ed.dur), row('Repeat', ed.repeat), ed.scope, ed.err,
+      el('div', { class: 'dt-dlgbtns' }, ed.del, el('span', { class: 'dt-grow' }), el('button', { type: 'button', class: 'dt-btn dt-ghost', text: 'Cancel', onclick: () => dlg.close() }), el('button', { type: 'submit', class: 'dt-btn', text: 'Save' })));
+    const dlg = el('dialog', { class: 'dt-dlg', 'aria-labelledby': 'dt-ed-h' }, ed.form);
+    root.append(dlg);
+    ed.allDay.addEventListener('change', () => { ed.start.disabled = ed.dur.disabled = ed.allDay.checked; });
+    ed.date.addEventListener('change', () => fillRepeat(ed.repeat.value));
+    let edCtx = null;
+    function fillRepeat(sel) {
+      const k = C.isKey(ed.date.value) ? ed.date.value : viewDate;
+      ed.repeat.replaceChildren(el('option', { value: '', text: 'Does not repeat' }));
+      for (const f of C.REPEATS) ed.repeat.append(el('option', { value: f, text: C.repeatLabel({ freq: f }, k) }));
+      ed.repeat.value = sel || '';
+    }
+    function scopeVal() { const r = ed.scope.querySelector('input:checked'); return r ? r.value : 'one'; }
+    function syncScope() {
+      if (!edCtx || !edCtx.task || !edCtx.task.repeat) return;
+      const s = scopeVal();
+      ed.date.value = s === 'all' ? edCtx.task.day : edCtx.occ; ed.date.disabled = s === 'all';
+      fillRepeat(edCtx.task.repeat.freq); ed.repeat.disabled = s === 'one'; // a single day keeps the series' rule (shown, not editable)
+      if (s === 'all') ed.date.title = 'Repeating since ' + dayName(edCtx.task.day); else ed.date.removeAttribute('title');
+      ed.del.textContent = s === 'one' ? 'Delete this day' : s === 'following' ? 'Delete this and following' : 'Delete all';
+    }
+    // ctx: {id?, occ?, title?, dur?, start?, day?}
+    function openEditor(ctx) {
+      const t = ctx.id ? state.tasks.find((x) => x.id === ctx.id) : null;
+      edCtx = { task: t, occ: ctx.occ || (t && t.day) || viewDate };
+      ed.h.textContent = t ? 'Edit task' : 'New task';
+      ed.title.value = t ? t.title : (ctx.title || '');
+      ed.date.disabled = false; ed.repeat.disabled = false;
+      ed.date.value = t ? (t.repeat ? edCtx.occ : t.day) : (ctx.day || viewDate);
+      ed.allDay.checked = !!(t && t.allDay);
+      const st = t ? t.start : ctx.start; ed.start.value = st != null ? C.fmt(st) : '';
+      const dur = t ? t.dur : (ctx.dur || 30); if (!DURS.includes(dur)) ed.dur.append(el('option', { value: dur, text: durText(dur) })); ed.dur.value = String(dur);
+      ed.start.disabled = ed.dur.disabled = ed.allDay.checked;
+      fillRepeat(t && t.repeat ? t.repeat.freq : '');
+      ed.scope.hidden = !(t && t.repeat);
+      ed.scope.querySelector('input[value=one]').checked = true;
+      ed.del.hidden = !t; ed.del.textContent = 'Delete';
+      ed.err.textContent = '';
+      if (t && t.repeat) syncScope();
+      if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+      ed.title.focus(); ed.title.select();
+    }
+    function edSave() {
+      const title = ed.title.value.trim(); if (!title) { ed.err.textContent = 'Give the task a title.'; ed.title.focus(); return; }
+      const day = C.isKey(ed.date.value) ? ed.date.value : edCtx.occ;
+      const allDayV = ed.allDay.checked, start = allDayV ? null : C.parseHM(ed.start.value);
+      const freq = edCtx.task && edCtx.task.repeat && scopeVal() === 'one' ? '' : ed.repeat.value; // 'one' detaches a plain copy
+      const fields = { title, day, allDay: allDayV, start, dur: +ed.dur.value, repeat: freq ? { freq } : null };
+      const scope = edCtx.task && edCtx.task.repeat ? scopeVal() : 'all';
+      if ((fields.repeat || (scope === 'one' && edCtx.task && edCtx.task.repeat)) && !allDayV && start == null) { ed.err.textContent = 'Pick a start time, or tick All day.'; ed.start.focus(); return; }
+      used();
+      if (!edCtx.task) state.tasks.push(C.normTask({ id: C.newId(), ...fields }, day));
+      else state.tasks = C.editTask(state.tasks, edCtx.task.id, edCtx.occ, fields, scope);
+      dlg.close(); save(); render();
+      say('Saved "' + title + '"' + (start != null || allDayV ? ' for ' + relName(day) + (allDayV ? ' (all day)' : ' at ' + C.fmt(start)) : ' to your tasks') + (fields.repeat && scope !== 'one' ? ', ' + C.repeatLabel(fields.repeat, day).toLowerCase() : '') + '.');
+    }
+    function edDelete() {
+      const t = edCtx && edCtx.task; if (!t) return;
+      const scope = t.repeat ? scopeVal() : 'all';
+      used(); state.tasks = C.deleteTask(state.tasks, t.id, edCtx.occ, scope); dlg.close(); save(); render();
+      say(t.repeat && scope === 'one' ? 'Removed "' + t.title + '" on ' + relName(edCtx.occ) + '.' : t.repeat && scope === 'following' ? 'Ended "' + t.title + '" before ' + relName(edCtx.occ) + '.' : 'Deleted "' + t.title + '".');
+    }
+
     // ---------- behaviour ----------
-    function applyTheme() {
-      root.dataset.theme = state.theme;
-      themeBtn.textContent = 'Theme: ' + state.theme;
+    function applyTheme() { root.dataset.theme = state.theme; themeBtn.textContent = 'Theme: ' + state.theme; }
+    function goTo(k) { viewDate = k; render(true); }
+    function step(dir) { viewDate = state.view === 'month' ? C.addMonths(viewDate, dir) : C.addDays(viewDate, state.view === 'week' ? 7 * dir : dir); render(true); }
+    function setView(v) { if (!views[v]) return; state.view = v; save(); render(true); }
+    // Put task `id` at `minute` on day `k`. A repeating occurrence (occ) moves for that day only.
+    function placeTask(id, minute, k, occ) {
+      used(); const t = state.tasks.find((x) => x.id === id); if (!t) return;
+      const m = C.snap(minute); let focusId = id;
+      if (t.repeat && occ) {
+        state.tasks = C.editTask(state.tasks, id, occ, { start: m, day: k, allDay: false }, 'one'); focusId = state.tasks[state.tasks.length - 1].id;
+        say('"' + t.title + '" moved to ' + C.fmt(m) + ' on ' + relName(k) + ' (this day only).');
+      } else {
+        state.tasks = state.tasks.map((x) => (x.id === id ? { ...x, start: m, day: k, allDay: false } : x));
+        say('"' + t.title + '" starts at ' + C.fmt(m) + ' ' + (k === today ? 'today' : 'on ' + relName(k)) + '.');
+      }
+      save(); render();
+      const n = main.querySelector('[data-id="' + focusId + '"][data-key="' + k + '"]'); n && n.focus();
     }
-    function placeTask(id, minute) {
-      used(); state.tasks = C.scheduleTask(state.tasks, id, minute);
-      const t = state.tasks.find((x) => x.id === id); t.day = C.dayKey(now());
-      save(); render(); say('"' + t.title + '" starts at ' + C.fmt(t.start) + '.');
-      const n = layer.querySelector('[data-id="' + id + '"]'); n && n.focus();
-    }
-    function unschedule(id) { const t = state.tasks.find((x) => x.id === id); if (!t) return; t.start = null; save(); render(); say('"' + t.title + '" moved back to tasks.'); }
+    function unschedule(id) { const t = state.tasks.find((x) => x.id === id); if (!t || t.repeat) return; t.start = null; t.allDay = false; save(); render(); say('"' + t.title + '" moved back to tasks.'); }
     function remove(id) { state.tasks = state.tasks.filter((x) => x.id !== id); save(); render(); say('Task deleted.'); }
     function trayDrop(n) {
       n.addEventListener('dragover', (e) => { if (dragId) e.preventDefault(); });
-      n.addEventListener('drop', (e) => { e.preventDefault(); if (dragId) { const id = dragId; dragId = null; used(); unschedule(id); } });
+      n.addEventListener('drop', (e) => {
+        e.preventDefault(); if (!dragId) return; const id = dragId; dragId = null; used();
+        const t = state.tasks.find((x) => x.id === id); if (t && t.repeat) { say('Repeating tasks stay on the calendar. Open the task to change or delete it.'); return; }
+        unschedule(id);
+      });
     }
-    function draggable(n, t) {
+    function dropZone(zone, keyOf) {
+      zone.addEventListener('dragover', (e) => { if (dragId) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; } });
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault(); const id = dragId || e.dataTransfer.getData('text/x-dt-task'); const occ = dragOcc || e.dataTransfer.getData('text/x-dt-occ') || null; dragId = null; dragOcc = null; if (!id) return;
+        const r = zone.getBoundingClientRect(); const grab = +(e.dataTransfer.getData('text/x-dt-offset') || 0);
+        placeTask(id, C.yToMinute(e.clientY - r.top - grab, PPM), keyOf(), occ);
+      });
+    }
+    function draggable(n, t, occ) {
       n.draggable = true;
       n.addEventListener('dragstart', (e) => {
-        dragId = t.id; e.dataTransfer.setData('text/x-dt-task', t.id);
+        dragId = t.id; dragOcc = occ || null; e.dataTransfer.setData('text/x-dt-task', t.id); if (occ) e.dataTransfer.setData('text/x-dt-occ', occ);
         // keep the grab point: dropping places the task's top where its top was, not where the cursor is
-        const off = t.start != null ? Math.max(0, e.clientY - n.getBoundingClientRect().top) : 0;
+        const off = t.start != null && occ ? Math.max(0, e.clientY - n.getBoundingClientRect().top) : 0;
         e.dataTransfer.setData('text/x-dt-offset', String(off)); e.dataTransfer.effectAllowed = 'move';
       });
-      n.addEventListener('dragend', () => { dragId = null; });
+      n.addEventListener('dragend', () => { dragId = null; dragOcc = null; });
     }
     function setIcs(text, name) {
       if (!/BEGIN:VCALENDAR/i.test(text)) { say('That does not look like an .ics calendar.'); return false; }
@@ -399,63 +753,206 @@ const vlabDemo=()=>{try{if(ss['vlab_demo_'+PAGE_SLUG])return;ss['vlab_demo_'+PAG
       events = parsed; state.ics = { text: text.length > 4e6 ? '' : text, name, updated: Date.now() };
       save(); render();
       const sk = C.skippedCount(events);
-      say('Calendar loaded: ' + C.occurrencesOn(events, now()).length + ' event(s) today.' + (sk ? ' ' + skipText(sk) : '')); return true;
+      say('Calendar loaded: ' + C.occurrencesOn(events, C.keyDate(viewDate)).length + ' event(s) on ' + relName(viewDate) + '.' + (sk ? ' ' + skipText(sk) : '')); return true;
     }
     const skipText = (n) => n + ' repeating event' + (n === 1 ? '' : 's') + ' skipped (unsupported repeat rule).';
-    function render() {
-      const d = now(); const today = C.dayKey(d);
-      dateH.textContent = d.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' });
-      // scheduled tasks from previous days go back to the tray
-      for (const t of state.tasks) if (t.start != null && t.day !== today) { t.start = null; t.day = today; }
-      tray.replaceChildren(); layer.replaceChildren(); allDay.replaceChildren();
-      const un = state.tasks.filter((t) => t.start == null);
+    // wall-clock minutes of a calendar occurrence on day k (clipped to the day)
+    function wall(o, k) {
+      const a = C.keyDate(k).getTime(), b = C.keyDate(C.addDays(k, 1)).getTime();
+      const s = o.startMs <= a ? 0 : minsOf(new Date(o.startMs)); const e = o.endMs >= b ? 1440 : minsOf(new Date(o.endMs));
+      return { s, e: Math.max(s, e) };
+    }
+    const evsOn = (occ, k) => { const a = C.keyDate(k).getTime(), b = C.keyDate(C.addDays(k, 1)).getTime(); return occ.filter((o) => o.startMs < b && (o.endMs > a || (o.endMs === o.startMs && o.startMs >= a))); };
+    function taskBlock(o, style, compact) {
+      const t = o.task, end = o.start + o.dur;
+      const label = t.title + ', ' + C.fmt(o.start) + ' to ' + C.fmt(Math.min(1440, end)) + (o.repeating ? ', ' + C.repeatLabel(t.repeat, t.day).toLowerCase() : '') + '. Enter edits, arrow keys move 15 minutes' + (o.repeating ? ' (this day only)' : ', Delete unschedules') + '.';
+      const n = el('li', { class: 'dt-block' + (o.repeating ? ' dt-rep' : ''), 'data-id': t.id, 'data-key': o.key, tabindex: '0', style, 'aria-label': label, title: t.title,
+        onclick: () => openEditor({ id: t.id, occ: o.key }),
+        onkeydown: (e) => {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); placeTask(t.id, o.start + (e.key === 'ArrowUp' ? -15 : 15), o.key, o.key); }
+          else if (e.key === 'Enter') { e.preventDefault(); openEditor({ id: t.id, occ: o.key }); }
+          else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); if (t.repeat) openEditor({ id: t.id, occ: o.key }); else { unschedule(t.id); tray.querySelector('.dt-task')?.focus(); } }
+        } },
+        el('b', { text: (compact ? C.fmt(o.start) : C.fmt(o.start) + '–' + C.fmt(Math.min(1440, end))) + ' ' }), o.repeating ? el('span', { class: 'dt-repi', 'aria-hidden': 'true', text: '↻ ' }) : null, t.title);
+      draggable(n, t, o.key); return n;
+    }
+    const allDayChip = (o) => el('button', { type: 'button', class: 'dt-chip dt-chipt' + (o.repeating ? ' dt-rep' : ''), 'data-id': o.task.id, 'data-key': o.key, title: o.title, 'aria-label': o.title + ', all day' + (o.repeating ? ', ' + C.repeatLabel(o.task.repeat, o.task.day).toLowerCase() : '') + '. Open to edit.', onclick: () => openEditor({ id: o.task.id, occ: o.key }) }, (o.repeating ? '↻ ' : '') + o.title);
+    const evChip = (o) => el('span', { class: 'dt-chip', title: o.title + ' (calendar)' }, o.title);
+
+    function renderTray() {
+      tray.replaceChildren();
+      const un = state.tasks.filter((t) => !C.isPlaced(t));
       if (!un.length) tray.append(el('li', { class: 'dt-empty', text: 'No unscheduled tasks.' }));
       for (const t of un) {
-        const timeIn = el('input', { type: 'time', step: '900', 'aria-label': 'Start time for ' + t.title, onchange: () => { const m = C.parseHM(timeIn.value); if (m != null) placeTask(t.id, m); } });
-        const li = el('li', { class: 'dt-task', 'data-id': t.id, tabindex: '0', 'aria-label': t.title + ', ' + t.dur + ' minutes, unscheduled' },
-          el('span', { class: 'dt-tt', text: t.title }), el('span', { class: 'dt-dur', text: t.dur + 'm' }), timeIn,
+        const timeIn = el('input', { type: 'time', step: '900', 'aria-label': 'Start time for ' + t.title + ' on ' + relName(viewDate), title: 'Start time on ' + relName(viewDate), onchange: () => { const m = C.parseHM(timeIn.value); if (m != null) placeTask(t.id, m, viewDate); } });
+        const li = el('li', { class: 'dt-task', 'data-id': t.id, tabindex: '0', 'aria-label': t.title + ', ' + t.dur + ' minutes, unscheduled. Enter opens details.',
+          onkeydown: (e) => { if (e.key === 'Enter' && e.target === li) { e.preventDefault(); openEditor({ id: t.id }); } } },
+          el('span', { class: 'dt-tt', text: t.title, ondblclick: () => openEditor({ id: t.id }) }), el('span', { class: 'dt-dur', text: t.dur + 'm' }), timeIn,
           el('button', { type: 'button', class: 'dt-x', 'aria-label': 'Delete ' + t.title, text: '×', onclick: () => remove(t.id) }));
-        draggable(li, t); tray.append(li);
+        draggable(li, t, null); tray.append(li);
       }
-      const occ = C.occurrencesOn(events, d); const dayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-      for (const o of occ) {
-        if (o.allDay) { allDay.append(el('span', { class: 'dt-chip', text: o.title })); continue; }
-        const s = Math.max(0, (o.startMs - dayStart) / 60000), e = Math.min(1440, (o.endMs - dayStart) / 60000);
-        layer.append(el('li', { class: 'dt-ev', style: `top:${s * PPM}px;height:${Math.max(18, (e - s) * PPM)}px`, 'aria-label': 'Calendar: ' + o.title + ', ' + C.fmt(Math.round(s)) },
-          el('b', { text: C.fmt(Math.round(s)) + ' ' }), o.title));
+    }
+    function renderDay(occAll) {
+      layer.replaceChildren(); allDay.replaceChildren();
+      const items = C.tasksOn(state.tasks, viewDate), evs = evsOn(occAll, viewDate);
+      for (const o of items) if (o.allDay) allDay.append(allDayChip(o));
+      for (const o of evs) if (o.allDay) allDay.append(evChip(o));
+      if (!allDay.children.length) allDay.append(el('span', { class: 'dt-note', text: 'No all-day items' }));
+      const tev = evs.filter((o) => !o.allDay).map((o) => ({ o, ...wall(o, viewDate) }));
+      const lanesE = C.layoutLanes(tev);
+      tev.forEach((x, i) => {
+        const L = lanesE[i], w = 48 / L.lanes;
+        layer.append(el('li', { class: 'dt-ev', style: `top:${x.s * PPM}px;height:${Math.max(18, (x.e - x.s) * PPM)}px;left:${L.lane * w}%;width:${w}%`, title: x.o.title, 'aria-label': 'Calendar: ' + x.o.title + ', ' + C.fmt(x.s) },
+          el('b', { text: C.fmt(x.s) + ' ' }), x.o.title));
+      });
+      const tt = items.filter((o) => !o.allDay).map((o) => ({ o, s: o.start, e: Math.min(1440, o.start + o.dur) }));
+      const lanesT = C.layoutLanes(tt);
+      tt.forEach((x, i) => { const L = lanesT[i], w = 50 / L.lanes; layer.append(taskBlock(x.o, `top:${x.s * PPM}px;height:${Math.max(18, (x.e - x.s) * PPM)}px;left:${50 + L.lane * w}%;width:${w}%`)); });
+      layer.setAttribute('aria-label', 'Timeline for ' + dayName(viewDate, { weekday: 'long', day: 'numeric', month: 'long' }));
+      nowLine.hidden = viewDate !== today;
+    }
+    function renderWeek(occAll, keys) {
+      const prevScroll = weekView.querySelector('.dt-scroll')?.scrollTop;
+      weekView.replaceChildren();
+      const head = el('div', { class: 'dt-wkhead' }, el('span'));
+      const adRow = el('div', { class: 'dt-wkad' }, el('span', { class: 'dt-note dt-wkadl', text: 'all day' }));
+      const g = el('div', { class: 'dt-wkgrid', style: 'height:' + 1440 * PPM + 'px' });
+      for (let h = 0; h < 24; h++) g.append(el('div', { class: 'dt-hour', style: 'top:' + h * 60 * PPM + 'px' }, el('span', { text: C.pad(h) + ':00' })));
+      const cols = el('div', { class: 'dt-wkcols' }); g.append(cols);
+      for (const k of keys) {
+        head.append(el('button', { type: 'button', class: 'dt-wkday' + (k === today ? ' dt-today' : '') + (k === viewDate ? ' dt-sel' : ''), 'aria-label': 'Open ' + dayName(k, { weekday: 'long', day: 'numeric', month: 'long' }), onclick: () => { viewDate = k; setView('day'); } },
+          el('span', { class: 'dt-wkdn', text: dayName(k, { weekday: 'short' }) }), el('span', { class: 'dt-wkdd', text: String(C.parseKey(k).d) })));
+        const items = C.tasksOn(state.tasks, k), evs = evsOn(occAll, k);
+        const ad = el('div', { class: 'dt-wkadc' });
+        for (const o of items) if (o.allDay) ad.append(allDayChip(o));
+        for (const o of evs) if (o.allDay) ad.append(evChip(o));
+        adRow.append(ad);
+        const col = el('ol', { class: 'dt-wkcol' + (k === today ? ' dt-today' : ''), 'aria-label': dayName(k, { weekday: 'long', day: 'numeric', month: 'long' }) });
+        const blocks = evs.filter((o) => !o.allDay).map((o) => ({ ev: o, ...wall(o, k) })).concat(items.filter((o) => !o.allDay).map((o) => ({ tk: o, s: o.start, e: Math.min(1440, o.start + o.dur) })));
+        const L = C.layoutLanes(blocks);
+        blocks.forEach((b, i) => {
+          const w = 100 / L[i].lanes, style = `top:${b.s * PPM}px;height:${Math.max(18, (b.e - b.s) * PPM)}px;left:${L[i].lane * w}%;width:${w}%`;
+          if (b.tk) col.append(taskBlock(b.tk, style, true));
+          else col.append(el('li', { class: 'dt-ev', style, title: b.ev.title, 'aria-label': 'Calendar: ' + b.ev.title + ', ' + C.fmt(b.s) }, el('b', { text: C.fmt(b.s) + ' ' }), b.ev.title));
+        });
+        if (k === today) { const m = minsOf(now()); col.append(el('div', { class: 'dt-now dt-wknow', 'aria-hidden': 'true', style: 'top:' + m * PPM + 'px' })); }
+        dropZone(col, () => k);
+        cols.append(col);
       }
-      for (const t of state.tasks.filter((x) => x.start != null)) {
-        const n = el('li', { class: 'dt-block', 'data-id': t.id, tabindex: '0', style: `top:${t.start * PPM}px;height:${Math.max(18, t.dur * PPM)}px`,
-          'aria-label': t.title + ', ' + C.fmt(t.start) + ' to ' + C.fmt(t.start + t.dur) + '. Arrow keys move 15 minutes, Delete unschedules.',
+      const sc = el('div', { class: 'dt-scroll' }, g);
+      weekView.append(head, adRow, sc);
+      sc.scrollTop = prevScroll != null ? prevScroll : (keys.includes(today) ? Math.max(0, (minsOf(now()) - 90) * PPM) : 8 * 60 * PPM);
+    }
+    function renderMonth(occAll, keys) {
+      monthView.replaceChildren();
+      const cur = C.parseKey(viewDate).mo;
+      const head = el('div', { class: 'dt-mhead' });
+      for (let i = 0; i < 7; i++) head.append(el('span', { text: dayName(keys[i], { weekday: 'short' }) }));
+      const gridM = el('div', { class: 'dt-mgrid', role: 'grid', 'aria-label': dayName(viewDate, { month: 'long', year: 'numeric' }) });
+      let r = null;
+      keys.forEach((k, i) => {
+        if (i % 7 === 0) { r = el('div', { class: 'dt-mrow', role: 'row' }); gridM.append(r); }
+        const items = C.tasksOn(state.tasks, k), evs = evsOn(occAll, k);
+        const lines = items.map((o) => ({ t: (o.allDay ? '' : C.fmt(o.start) + ' ') + (o.repeating ? '↻ ' : '') + o.title, cls: 'dt-mt', s: o.allDay ? -1 : o.start }))
+          .concat(evs.map((o) => ({ t: (o.allDay ? '' : C.fmt(wall(o, k).s) + ' ') + o.title, cls: 'dt-me', s: o.allDay ? -1 : wall(o, k).s }))).sort((x, y) => x.s - y.s);
+        const cell = el('button', { type: 'button', role: 'gridcell', class: 'dt-mcell' + (C.parseKey(k).mo !== cur ? ' dt-out' : '') + (k === today ? ' dt-today' : '') + (k === viewDate ? ' dt-sel' : ''), 'data-key': k, tabindex: k === viewDate ? '0' : '-1',
+          'aria-label': dayName(k, { weekday: 'long', day: 'numeric', month: 'long' }) + ', ' + (lines.length ? lines.length + ' item' + (lines.length > 1 ? 's' : '') : 'nothing planned'),
+          onclick: () => { viewDate = k; setView('day'); },
           onkeydown: (e) => {
-            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); placeTask(t.id, t.start + (e.key === 'ArrowUp' ? -15 : 15)); }
-            else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); unschedule(t.id); tray.querySelector('.dt-task')?.focus(); }
+            const d = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key]; if (!d) return; e.preventDefault();
+            const nk = C.addDays(k, d); const t = gridM.querySelector('[data-key="' + nk + '"]');
+            if (t) { gridM.querySelectorAll('.dt-mcell').forEach((c) => c.setAttribute('tabindex', '-1')); t.setAttribute('tabindex', '0'); t.focus(); viewDate = nk; syncHeader(); } else { viewDate = nk; render(true); monthView.querySelector('[data-key="' + nk + '"]')?.focus(); }
           } },
-          el('b', { text: C.fmt(t.start) + '–' + C.fmt(t.start + t.dur) + ' ' }), t.title);
-        draggable(n, t); layer.append(n);
-      }
-      if (!allDay.children.length) allDay.append(el('span', { class: 'dt-note', text: 'No all-day events' }));
+          el('span', { class: 'dt-mnum', text: String(C.parseKey(k).d) }));
+        const MAX = 3;
+        for (const l of lines.slice(0, MAX)) cell.append(el('span', { class: 'dt-mline ' + l.cls, text: l.t }));
+        if (lines.length > MAX) cell.append(el('span', { class: 'dt-mmore', text: '+' + (lines.length - MAX) + ' more' }));
+        r.append(cell);
+      });
+      monthView.append(head, gridM);
+    }
+    function syncHeader() {
+      const v = state.view;
+      for (const k in views) { views[k].setAttribute('aria-pressed', String(k === v)); views[k].classList.toggle('dt-on', k === v); }
+      const unit = v === 'month' ? 'month' : v === 'week' ? 'week' : 'day';
+      prevBtn.setAttribute('aria-label', 'Previous ' + unit); prevBtn.title = 'Previous ' + unit + ' (K)';
+      nextBtn.setAttribute('aria-label', 'Next ' + unit); nextBtn.title = 'Next ' + unit + ' (J)';
+      let title, rel = '';
+      if (v === 'day') { title = C.keyDate(viewDate).toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }); rel = viewDate === today ? 'Today' : viewDate === C.addDays(today, 1) ? 'Tomorrow' : viewDate === C.addDays(today, -1) ? 'Yesterday' : ''; if (C.parseKey(viewDate).y !== C.parseKey(today).y) title += ' ' + C.parseKey(viewDate).y; }
+      else if (v === 'week') { const a = C.weekStartOf(viewDate, ws()), b = C.addDays(a, 6); title = dayName(a, { day: 'numeric', month: 'short' }) + ' – ' + dayName(b, { day: 'numeric', month: 'short', year: 'numeric' }); rel = C.weekStartOf(today, ws()) === a ? 'This week' : ''; }
+      else { title = dayName(viewDate, { month: 'long', year: 'numeric' }); rel = viewDate.slice(0, 7) === today.slice(0, 7) ? 'This month' : ''; }
+      dateH.textContent = title; relBadge.textContent = rel; relBadge.hidden = !rel;
+      dateIn.value = viewDate;
+      todayBtn.disabled = v === 'day' ? viewDate === today : rel !== '';
+    }
+    function render(nav) {
+      today = C.dayKey(now());
+      const ro = C.rollover(state.tasks, today); if (ro.changed) { state.tasks = ro.tasks; save(); }
+      const v = state.view;
+      dayView.hidden = v !== 'day'; weekView.hidden = v !== 'week'; monthView.hidden = v !== 'month';
+      root.dataset.view = v;
+      syncHeader(); renderTray();
+      let keys = [viewDate];
+      if (v === 'week') { const a = C.weekStartOf(viewDate, ws()); keys = []; for (let i = 0; i < 7; i++) keys.push(C.addDays(a, i)); }
+      if (v === 'month') keys = C.monthGrid(viewDate, ws());
+      const occAll = events.length ? C.occurrencesBetween(events, C.keyDate(keys[0]), C.keyDate(C.addDays(keys[keys.length - 1], 1))) : [];
+      if (v === 'day') renderDay(occAll); else if (v === 'week') renderWeek(occAll, keys); else renderMonth(occAll, keys);
+      tip.textContent = v === 'day' ? 'Tip: drag a task onto the timeline (snaps to 15 min), or pick a time. Click a task on the timeline to edit or repeat it. Keys: ↑/↓ move 15 min, Delete unschedules, J/K next/previous day, T today, D/W/M views.'
+        : v === 'week' ? 'Tip: drag a task onto any day of the week. Click a day name to open that day. Keys: J/K next/previous week, T today, D/W/M views.'
+        : 'Tip: click a day to plan it. Arrow keys move between days. Keys: J/K next/previous month, T today, D/W/M views.';
       icsInfo.textContent = state.ics.updated ? 'Loaded ' + (state.ics.name || 'calendar') + ' · ' + new Date(state.ics.updated).toLocaleString() : 'No calendar loaded. Data stays in your browser.';
       const sk = C.skippedCount(events); skipInfo.textContent = sk ? skipText(sk) : ''; skipInfo.hidden = !sk;
       tickNow();
+      if (nav && v === 'day') scroller.scrollTop = viewDate === today ? Math.max(0, (minsOf(now()) - 90) * PPM) : firstItemScroll();
+      listeners.forEach((f) => { try { f(); } catch {} });
     }
-    function tickNow() { const d = now(); const m = d.getHours() * 60 + d.getMinutes(); nowLine.style.top = m * PPM + 'px'; nowLine.dataset.min = m; }
+    function firstItemScroll() { const first = C.tasksOn(state.tasks, viewDate).find((o) => !o.allDay); const m = first ? Math.min(first.start, 8 * 60) : 8 * 60; return Math.max(0, (m - 30) * PPM); }
+    function tickNow() {
+      const d = now(); const m = minsOf(d); nowLine.style.top = m * PPM + 'px'; nowLine.dataset.min = m;
+      const wn = weekView.querySelector('.dt-wknow'); if (wn) wn.style.top = m * PPM + 'px';
+      if (C.dayKey(d) !== today) { const was = today; if (viewDate === was) viewDate = C.dayKey(d); render(true); }
+    }
+    const scope = opts.mode === 'extension' ? document : root;
+    scope.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented || typingTarget(e.target) || dlg.open) return;
+      const k = e.key.toLowerCase();
+      const act = { t: () => goTo(today), j: () => step(1), n: () => step(1), k: () => step(-1), p: () => step(-1), d: () => setView('day'), w: () => setView('week'), m: () => setView('month') }[k];
+      if (act) { e.preventDefault(); act(); }
+    });
+    const listeners = [];
 
-    return storage.get(KEY).then((res) => {
-      const s = res && res[KEY]; if (s && typeof s === 'object') state = { ...state, ...s, ics: { ...state.ics, ...(s.ics || {}) } };
-      delete state.ics.url;
-      if (!Array.isArray(state.tasks)) state.tasks = [];
+    return storage.get(KEY).then(async (res) => {
+      const raw = res && res[KEY];
+      const mig = C.migrateState(raw, today);
+      if (mig.changed && raw && storage.backup) { try { await storage.backup(raw); } catch {} }
+      state = mig.state;
       if (state.ics.text) { try { events = C.parseICS(state.ics.text); } catch { events = []; } }
-      applyTheme(); render();
-      const d = now(); scroller.scrollTop = Math.max(0, (d.getHours() * 60 + d.getMinutes() - 90) * PPM);
+      if (mig.changed) await save();
+      applyTheme(); render(true);
       setInterval(tickNow, 30000);
-      return { get state() { return state; }, render };
+      if (storage.watch) storage.watch(KEY, (nv) => {
+        const s = stable(nv); if (!nv || s === lastSaved || s === stable(state) || dlg.open) return;
+        state = C.migrateState(nv, today).state; lastSaved = s;
+        try { events = state.ics.text ? C.parseICS(state.ics.text) : []; } catch { events = []; }
+        applyTheme(); render();
+      });
+      return {
+        get state() { return state; }, get viewDate() { return viewDate; }, render, goTo, setView, openEditor, save, migratedFrom: mig.from,
+        addHeaderItem: (n) => slot.append(n), onRender: (f) => listeners.push(f),
+        setWeekStart: (v) => { state.weekStart = v === 0 || v === 1 ? v : null; save(); render(); },
+        get weekStart() { return ws(); },
+      };
     });
   }
   // storage adapters
-  const chromeStorage = () => ({ get: (k) => chrome.storage.local.get(k), set: (o) => chrome.storage.local.set(o) });
+  const chromeStorage = () => ({
+    get: (k) => chrome.storage.local.get(k), set: (o) => chrome.storage.local.set(o),
+    // one-time copy of the pre-0.2.0 tasks (small; the .ics text is not duplicated) kept for safety
+    backup: async (raw) => { const b = await chrome.storage.local.get('dt_backup_v1'); if (!b.dt_backup_v1) await chrome.storage.local.set({ dt_backup_v1: { at: Date.now(), tasks: raw.tasks || [], theme: raw.theme } }); },
+    watch: (k, cb) => chrome.storage.onChanged.addListener((ch, area) => { if (area === 'local' && ch[k]) cb(ch[k].newValue); }),
+  });
   const memoryStorage = () => { const m = {}; return { get: (k) => Promise.resolve({ [k]: m[k] && JSON.parse(m[k]) }), set: (o) => { for (const k in o) m[k] = JSON.stringify(o[k]); return Promise.resolve(); } }; };
-  G.DTApp = { mount, chromeStorage, memoryStorage, PPM };
+  G.DTApp = { mount, chromeStorage, memoryStorage, PPM, KEY };
 })(globalThis);
 
 (function(){const st=DTApp.memoryStorage(),n=new Date(),d=DTCore.dayKey(n),h=Math.min(n.getHours(),20),m=h*60,p=x=>String(x).padStart(2,'0'),ymd=''+n.getFullYear()+p(n.getMonth()+1)+p(n.getDate()),eh=h+2,ics='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Venture Lab//Demo//EN\r\nBEGIN:VEVENT\r\nUID:demo-1@venturelab\r\nSUMMARY:Team meeting (sample calendar event)\r\nDTSTART:'+ymd+'T'+p(eh)+'0000\r\nDTEND:'+ymd+'T'+p(eh)+'4500\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n';st.set({dt_state_v1:{tasks:[{id:'s1',title:'Deep work (sample)',dur:90,start:m,day:d},{id:'s2',title:'Standup (sample)',dur:15,start:m+90,day:d},{id:'s3',title:'Reply to emails (sample)',dur:30,start:null,day:d}],ics:{text:ics,name:'sample.ics',updated:Date.now()},theme:'auto'}});DTApp.mount({root:document.getElementById('dt-demo'),storage:st,mode:'demo',onFirstUse:vlabDemo});})();
