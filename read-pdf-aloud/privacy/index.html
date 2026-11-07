@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- STAGED (not deployed). Static page: no tracking script. Source of truth: products/vs014d-read-pdf-aloud/STORE_LISTING.md (privacy section). Awaiting Verifier. -->
+<title>Privacy policy – Listen to PDF (Chrome extension)</title><meta name="description" content="Privacy policy for the Listen to PDF Chrome extension: we receive no data from it. PDF text, settings and reading positions are handled locally; online voices you choose send the text being read to their provider.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://lyssk.github.io/venture-validation-pages/read-pdf-aloud/privacy/">
+<style>body{font:17px/1.6 system-ui,sans-serif;max-width:720px;margin:0 auto;padding:24px 20px;color:#111827}.note{color:#6b7280;font-size:15px}code{font-size:15px}</style></head><body>
+<h1>Privacy policy: Listen to PDF (Chrome extension)</h1>
+<p class="note">Effective from the first public version (0.1.2); drafted 2026-11-07, revised 2026-11-07 after the pre-launch audits. Applies to the browser extension only. The <a href="../">product web page</a> has its own privacy notice.</p>
+<h2>Summary</h2>
+<p><b>We receive no data from the extension. The PDF text and saved settings/positions are processed locally; explicitly selected online voices send spoken text to their provider as explained below.</b></p><p>No account, no analytics, no tracking, no ads, no remote code. Your PDF file isn't uploaded to us or to anyone else. PDFs can contain personal information; the extension handles that content only on your device, except for the sentences you have read aloud by an online voice you chose.</p>
+<h2>How your PDF is handled</h2>
+<ul><li>When you choose or drop a PDF, the extension reads the file inside your browser and extracts its text with PDF.js, which is included in the extension. The file is not uploaded anywhere.</li>
+<li>The PDF and its text are kept only in the open reader tab's memory and are discarded when you close the tab or open another file.</li></ul>
+<h2>Speech voices</h2>
+<ul><li>Speech uses your browser's built-in speech feature (<code>speechSynthesis</code>) and the voices installed in your browser or operating system.</li>
+<li>By default the extension only selects a voice that runs on your device. On-device voices make the audio on your computer.</li>
+<li>Some voices are online voices, for example Chrome's voices named "Google …". If you choose one, the text being read is sent by your browser to that voice's provider (for Google's voices, Google) to make the audio, under the provider's own privacy terms. The voice list labels every online voice as "online: text is sent to …", and a warning is shown while one is selected. The extension never selects an online voice unless you choose it.</li></ul>
+<h2>What the extension stores, and where</h2>
+<ul><li>Your settings: the voice you chose, the speed, and the highlight mode.</li>
+<li>For each PDF you've opened, where you stopped: the sentence number, the number of sentences and the time it was saved. Positions are keyed by a file fingerprint (a SHA-256 hash of the file's bytes); file name and PDF text are not saved. At most the 200 most recent PDFs are kept.</li>
+<li>Settings and reading positions are stored locally, separately from each other. This is stored only in your browser using Chrome's local extension storage (<code>chrome.storage.local</code>). It is not synced and never sent to us or anyone else.</li>
+<li>"Forget saved positions" in the reader deletes all saved positions, including saves still pending in other open reader tabs; reading a PDF again afterwards saves a new position. To make this work across tabs, a small counter of how many times you used Forget is also stored locally. Uninstalling the extension deletes everything.</li></ul>
+<h2>Permissions</h2>
+<p>The extension asks for one permission, <code>storage</code>, used only for the settings and positions above. It has no access to the websites you visit and no host permissions.</p>
+<h2>Sharing and selling</h2>
+<p>We don't receive any data from the extension, so we don't sell, share or transfer any.</p>
+<h2>Chrome Web Store User Data Policy</h2>
+<p>The extension's handling of user data, including the PDF text it processes on your device, follows the Chrome Web Store User Data Policy, including the Limited Use requirements. Separately: the extension does not use Google sign-in (OAuth) or any Google API; the browser's speech feature is a browser API.</p>
+<h2>Children</h2><p>We receive no data from the extension, from anyone, including children. The same local handling and online-voice exception described above apply to everyone.</p>
+<h2>Changes</h2><p>If a future version changes how data is handled, this page will be updated before that version is published, with the date of the change.</p>
+<h2>Contact</h2>
+<p>Controller: Illia Usyk, Dorogozhytska St, Kyiv 02000, Ukraine, contact <a href="mailto:iuui3580@gmail.com">iuui3580@gmail.com</a>. You may also complain to your data protection authority.</p>
+<p class="note">Venture Lab is run by AI agents. A human owner sets the rules; this policy was written by AI and has not been reviewed by a human. PDF.js is by Mozilla and licensed under the Apache License 2.0. Not affiliated with Google or Mozilla.</p>
+</body></html>
